@@ -1,0 +1,230 @@
+<?php 
+include("conexion.php");
+$link=conectarse();
+
+
+$cod = @$_POST['cod']; 
+$mailadm = @$_POST['mailadm'];
+$usu= @$_POST['usu']; 
+$ci= @$_POST['ci'];  
+//echo "$ci";
+//@$hoy=date ( "j / n / Y" );
+@$hoy=date("d/m/Y");
+@$hoyb=date("d/m/Y");
+@list( $month, $day, $year) = @split( '/', $hoy );
+//echo"$usu  $ci";
+ $year=ltrim ($year);
+ $month=ltrim ($month);
+ $day=ltrim ($day);
+ 
+ $year=rtrim ($year);
+ $month=rtrim ($month);
+ $day=rtrim ($day);
+ 
+ $contador=0;
+
+if($day=="1"){$day="01"; }
+if($day=="2"){$day="02"; }
+if($day=="3"){$day="03"; }
+if($day=="4"){$day="04"; }
+if($day=="5"){$day="05"; }
+if($day=="6"){$day="06"; }
+if($day=="7"){$day="07"; }
+if($day=="8"){$day="08"; }
+if($day=="9"){$day="09"; }
+
+if($month=="1"){$month="01"; }
+if($month=="2"){$month="02"; }
+if($month=="3"){$month="03"; }
+if($month=="4"){$month="04"; }
+if($month=="5"){$month="05"; }
+if($month=="6"){$month="06"; }
+if($month=="7"){$month="07"; }
+if($month=="8"){$month="08"; }
+if($month=="9"){$month="09"; }
+		
+
+?><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CNI</title>
+<link href="estilos.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="..//style.css" type="text/css" />
+    <script src="jquery.js"  type="text/javascript"></script>
+    <script language="javascript"> 
+//Su explorador no soporta java o lo tiene deshabilitado; esta pagina necesita javascript para funcionar correctamente<!-- 
+//Copyright © McAnam.com 
+
+function iSubmitEnter(oEvento, oFormulario){ 
+     var iAscii; 
+
+     if (oEvento.keyCode) 
+         iAscii = oEvento.keyCode; 
+     else if (oEvento.which) 
+         iAscii = oEvento.which; 
+     else 
+         return false; 
+
+     if (iAscii == 13) oFormulario.submit(); 
+
+     return true; 
+} 
+//--> 
+    </script>
+
+
+    <script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+    </script>
+</head>
+
+
+
+
+    <style type="text/css">
+<!--
+.Estilo184 {color: #333333}
+
+body {
+		
+	padding-bottom: 5px;
+	margin-bottom:0px;
+	background: white url(imagenes/modificar.jpg)  top left no-repeat;
+	margin-top: 0px;
+		}
+-->
+    </style>
+
+<script>
+function resizeIframe(){
+var miIframe=document.getElementById("miIframe");
+var alturaPagina=miIframe.contentWindow.document.body.scrollHeight;
+miIframe.style.height=alturaPagina;
+}
+
+function envia_form1(){
+document.form2.target="marco";
+document.form2.action="01lista_usu_operacion.php";
+document.form2.submit(); 
+}
+function envia_form2(){
+document.form2.target="_self";
+document.form2.action="03selec_reporte_excel.php";
+document.form2.submit(); 
+document.form2.target="marco";
+document.form2.action="03selec_reporte.php";
+document.form2.submit();
+}
+
+function Abrir_Ventana01(el_url) { 
+var especificaciones="top=20,left=200,toolbar=no,location=no,status=no,menubar=yes,scrollbars=yes,resizable=1,width=650,height=520" 
+//var especificaciones="scrollbars=0,menubar=1,width=200,height=175," 
+var titulo="CNI"
+window.open(el_url,titulo,especificaciones); 
+} 
+
+function ventana(){
+ javascript:window.open('buscar_importador_lista_dellenar.php','popup','width=440,height=500,scrollbars=YES')
+ }
+ function ventana_b(){
+ javascript:window.open('buscar_agencia_lista_dellenar.php','popup','width=550,height=500,scrollbars=YES')
+ }
+
+</script>
+
+<link type="text/css" rel="stylesheet" href="dhtmlgoodies_calendar/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+	<SCRIPT type="text/javascript" src="dhtmlgoodies_calendar/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+	
+	<!-- Initialize each slider on the page. Each slider must have a unique id -->
+	<script type="text/javascript">
+		jQuery(window).bind("load", function() {
+			jQuery("div#slider1").codaSlider()
+			// jQuery("div#slider2").codaSlider()
+			// etc, etc. Beware of cross-linking difficulties if using multiple sliders on one page.
+		});
+	</script>
+		
+</head>
+
+<body>
+
+<center>
+<form name="form2" id="form2" method="post">
+
+<table width="95%"  border="0" cellpadding="0" cellspacing="0" class="table">
+  <tr class="tabla_gral" bgcolor="#F9F9F9" >
+    <td height="30" >
+    <h2>administrador de perfil</h2>
+    <span class="end">(* Si no llena ninguna casilla al hacer clic en BUSCAR, mostrara todo el listado.) </span>
+    </td>
+  </tr>
+  <tr bgcolor="#F9F9F9">
+    <td height="51">
+		
+                   <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" >
+              <tr>
+                <td width="48%" height="51" align="left" bgcolor="#F9F8F2"><div align="left">
+                    <table width="85%" border="0" align="left" cellspacing="0" class="tabla_sin_borde" >
+                      <tr >
+                        <td width="162" align="left" valign="bottom"><span class="texto_general">Nombre de Usuario</span></td>
+                        <td width="163" align="left" valign="bottom"><span class="texto_general">Carnet de Identidad</span></td>
+                        <td width="163" align="left" valign="bottom"><span class="texto_general">Estado</span></td>
+                      </tr>
+                      <tr valign="middle">
+                        <td height="26" align="left">
+                            <span class="texto_general">
+                            <input  name="nombre_imp" type="text" class="input"  id="nombre_imp" onKeyUp="this.value=this.value.toUpperCase()" size="18">
+                            </span></td>
+                        <td align="left"><span class="texto_general">
+                          <input  name="ci" type="text" class="input"  id="username" onKeyPress="iSubmitEnter(event, document.form2)" onKeyUp="checkUsernameForLength(this);" size="18">
+                        </span></td>
+                        <td align="left"><select name="est" id="est">
+                          <option value="ACT">ACT</option>
+                            <option value="ANU">ANU</option>
+                        </select></td>
+                      </tr>
+                    </table>
+                </div></td>
+                <td width="15%" height="51" align="center" valign="middle" bgcolor="#F9F8F2">
+                <input title="Buscar" alt="Buscar" src="boton/buscar_busqueda.jpg" type="image" onClick="envia_form1()" />
+                <button type="reset" name="borrar" style="padding:0px 0px 0px 0px; border:0px; cursor:pointer;" ></button>
+                  
+                </td>
+                <td width="12%" align="center" valign="middle" bgcolor="#F9F8F2">          
+              <a href="javascript:Abrir_Ventana01('01insertar_perfil.php?ci='+document.form2.ci.value+'&usu=<?php echo"$usu";?>');">
+          <img src="boton/registrar_usuario.jpg"  width="136" height="39"  border="0" class="tooltip" title="Haga clic para registrar nuevo importadores."> 
+          </a>  
+				</td>
+                <td width="12%" height="51" align="center" valign="middle" bgcolor="#F9F8F2">
+                <button type="submit" name="borrar" style="padding:0px 0px 0px 0px; border:0px; cursor:pointer;" ><img src="boton/actualizar.jpg" alt="borrar" /></button>
+
+                </td>
+                <td width="13%" align="center" valign="middle" bgcolor="#F9F8F2">
+               
+               <button type="reset" name="borrar" style="padding:0px 0px 0px 0px; border:0px;cursor:pointer; " ><img src="boton/limpiar_busqueda.jpg" alt="borrar" /></button>
+               </td>
+              </tr>
+            </table>
+      
+      
+      </td>
+  </tr>
+</table>
+    
+                    <input name="usu" type="hidden" value="<?php echo"$usu"; ?>">
+
+  </form>
+
+  <iframe  src=""  scrolling="auto" align="middle" width="100%" height="400"
+frameborder="no" id ="miIframe" allowtransparency="true" background-color="transparent"  name ="marco" ></iframe>
+</center>
+
+</body>
+</html>
