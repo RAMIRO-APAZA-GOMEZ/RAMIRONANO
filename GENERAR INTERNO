@@ -1,0 +1,372 @@
+
+<html>
+
+
+
+<script language="javascript">   
+  
+// Creamos la función que abre la ventana popup en una posición definida   
+function AbrirVentanaPopup(URL,posLeft,posTop) {  
+  
+/* Utilizamos el argumento como primer parámetro.  
+Posicionamos la ventana popup mediante los parámetros left y top */  
+    window.open(URL,"","left="+posLeft+",top="+posTop+"");   
+  
+} // Fin de la función AbrirVentanaPopup()   
+  
+</script>   
+   
+
+<style type="text/css">
+<!--
+.Estilo30 {font-size: 11px; font-family: Arial, Helvetica, sans-serif; }
+.Estilo32 {font-size: 11px; font-family: Arial, Helvetica, sans-serif; color: #FFFFFF; }
+.Estilo33 {
+	font-family: "Franklin Gothic Book";
+	font-weight: bold;
+	font-size: 12px;
+	color: #5281BA;
+}
+.Estilo36 {color: #333333}
+.Estilo37 {
+	color: #A6C6AE;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+}
+
+-->
+</style>
+    <head>
+<title>Asignación de Importador</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="estilos.css" rel="stylesheet" type="text/css">
+<link href= "../style.css" rel="stylesheet" type="text/css">
+</head>
+
+
+
+<script lenguage="JavaScript">
+
+function controlClick(obj)
+{
+     trozos = obj.value.split ("!");
+	 var a1 =(trozos[0]);
+	 var a2 =(trozos[1]);
+	 
+	/*document.form1.correo.value=document.form1.correo.value+a1;*/
+	document.form1.t.value=document.form1.t.value+a2;
+}
+
+function Validar(form){   
+
+ if (form.zona.value != "Seleccione" )
+   { 
+        document.forms.form0.submit();  
+       }  
+
+ }
+
+function seleccionar_todo(){
+   for (i=0;i<document.form1.elements.length;i++)
+   {
+      if(document.form1.elements[i].type == "checkbox")
+	  {
+	     document.form1.elements[i].checked=1;
+		 document.getElementById('f'+i).style.backgroundColor='#FFDD53';
+
+		 }
+	}
+	
+} 
+
+function deseleccionar_todo(){
+   for (i=0;i<document.form1.elements.length;i++)
+   {
+      if(document.form1.elements[i].type == "checkbox")
+	  {
+         document.form1.elements[i].checked=0;
+		 document.getElementById('f'+i).style.backgroundColor='#999999';
+		 }
+		 }
+}
+
+function enviar(){
+
+
+var valor=document.form4.interno.value;
+opener.document.form2.interno1.value=valor; 	
+//opener.document.form2.a11.value=""; 
+window.close();
+
+} 
+
+function A(c,i)
+{
+ var b=i.substring(1, i.length);
+ if(document.form1.elements[b].type == "checkbox")
+	  {
+        if(document.form1.elements[b].checked==1)
+		{
+  document.getElementById(i).style.backgroundColor=c; 
+}else{
+   document.getElementById(i).style.backgroundColor='#999999';
+}
+}
+}
+
+</script>
+
+
+<style type="text/css">
+* {margin:0; padding:0}
+body {font:10px Verdana,Arial}
+#wrapper {width:100%; margin:1px auto}
+.tabla_a_ordenar {width:100%px; border:1px solid #ccc; border-bottom:none}
+.tabla_a_ordenar th {padding:1px 2px 2px; background:#3D679A; color:#fff; text-align:left; color:#30527A}
+.tabla_a_ordenar td {padding:1px 2px 2px;  border-bottom:0px solid #ccc}
+.tabla_a_ordenar .head {background:#3D679A url("sort.gif") 6px center no-repeat; cursor:pointer; padding-left:14px}
+.tabla_a_ordenar .desc {background:#5483BC url("desc.gif") 6px center no-repeat; cursor:pointer; padding-left:14px}
+.tabla_a_ordenar .asc {background:#5483BC url("asc.gif") no-repeat 6px center; cursor:pointer; padding-left:14px}
+</style>
+<script language="javascript">
+var table=function(){
+	function sorter(n){
+		this.n=n; this.t; this.b; this.r; this.d; this.p; this.w; this.a=[]; this.l=0
+	}
+	sorter.prototype.init=function(t,f){
+		this.t=document.getElementById(t);
+		this.b=this.t.getElementsByTagName('tbody')[0];
+		this.r=this.b.rows; var l=this.r.length;
+		for(var i=0;i<l;i++){
+			if(i==0){
+				var c=this.r[i].cells; this.w=c.length;
+				for(var x=0;x<this.w;x++){
+					if(c[x].className!='nosort'){
+						c[x].className='head';
+						c[x].onclick=new Function(this.n+'.work(this.cellIndex)')
+					}
+				}
+			}else{
+				this.a[i-1]={}; this.l++;
+			}
+		}
+		if(f!=null){
+			var a=new Function(this.n+'.work('+f+')'); a()
+		}
+	}
+	sorter.prototype.work=function(y){
+		this.b=this.t.getElementsByTagName('tbody')[0]; this.r=this.b.rows;
+		var x=this.r[0].cells[y],i;
+		for(i=0;i<this.l;i++){
+			this.a[i].o=i+1; var v=this.r[i+1].cells[y].firstChild;
+			this.a[i].value=(v!=null)?v.nodeValue:''
+		}
+		for(i=0;i<this.w;i++){
+			var c=this.r[0].cells[i];
+			if(c.className!='nosort'){c.className='head'}
+		}
+		if(this.p==y){
+			this.a.reverse(); x.className=(this.d)?'asc':'desc';
+			this.d=(this.d)?false:true
+		}else{
+			this.p=y; this.a.sort(compare); x.className='asc'; this.d=false
+		}
+		var n=document.createElement('tbody');
+		n.appendChild(this.r[0]);
+		for(i=0;i<this.l;i++){
+			var r=this.r[this.a[i].o-1].cloneNode(true);
+			n.appendChild(r); r.className=(i%2==0)?'even':'odd'
+		}
+		this.t.replaceChild(n,this.b)
+	}
+	function compare(f,c){
+		f=f.value,c=c.value;
+		var i=parseFloat(f.replace(/(\$|\,)/g,'')),n=parseFloat(c.replace(/(\$|\,)/g,''));
+		if(!isNaN(i)&&!isNaN(n)){f=i,c=n}
+		return (f>c?1:(f<c?-1:0))
+	}
+	return{sorter:sorter}
+}();
+</script>
+
+<script src="tipo.js" type="text/javascript"></script>
+<link href="defaultTheme.css" rel="stylesheet" media="screen" />
+        <script src="jquery.min.js"></script>
+       <script src="jquery.fixedheadertable.js"></script>
+        <script src="demo.js"></script>
+<body>
+	
+<?php
+ include("conexion.php");
+ $link=conectarse();
+   $ok = @$_POST['ok'];
+   $codigo_reci = @$_GET['codigo_reci'];
+   $gestion_actual = @$_POST['gestion_actual'];
+   $usu = @$_GET['usu'];
+   
+?>
+	<center> 
+    <table width="96%" border="0" align="center" cellpadding="0" cellspacing="1" class="table">
+      <tr bgcolor="#999999" valign="middle" >
+        <td height="36" align="center"  bgcolor="#F9F9F9">
+        <h2>interno asignado</h2></td>
+      </tr>
+      <tr>
+       <td height="83" align="left">
+       
+       
+       
+<?php
+  if (empty($ok)) 
+	{ 
+$resp= mysql_query("SELECT * FROM dam ", $link);
+@$contador=0;
+$filas=mysql_num_rows($resp);
+if($filas!=0)
+{
+while($datos=mysql_fetch_array($resp))
+{
+$d0=$datos[0];
+$d1=$datos[1];
+@$contador=$contador+1;
+}
+}
+
+@$contador=$contador+1;
+$length = 4;
+@$contador_ini=str_pad($contador,$length,"0", STR_PAD_LEFT);
+//output: 0012345
+
+
+$resp2= mysql_query("SELECT * FROM recintos where codigo like '$codigo_reci' ", $link);
+//echo "SELECT * FROM recintos where codigo like '$codigo_reci'";
+$filas2=mysql_num_rows($resp2);
+if($filas2!=0)
+{
+while($dat=mysql_fetch_array($resp2))
+{
+@$clave=$dat[4];
+}
+}
+$gestion_actual=date("Y");
+$resp3= mysql_query("SELECT * FROM gestion_clave where gestion like '$gestion_actual' ", $link);
+$filas3=mysql_num_rows($resp3);
+if($filas3!=0)
+{
+while($da=mysql_fetch_array($resp3))
+{
+@$letra=$da[1];
+}
+}
+
+@$interno=$clave.$letra.$contador_ini;
+?>
+
+<form action="asignar_correlativo.php" name="form1" id="form1" method="post">
+
+<table width="200" border="0" align="center" cellspacing="3">
+  <tr>
+    <td><input type="text" class="light-table-filter" data-table="order-table" id="interno" name="interno" style="background-color:#F9F9F9; 
+border:1px solid #69C; width:350px; 
+font-size: 20px; height:35px;
+color:#999; 
+font-weight: bold;" value="<?php echo"$interno";?>"/></td>
+    <td><span style="padding:0px 0px 0px 0px; border:0px; cursor:pointer;">
+    <button type="submit" name="ok" value="1" style="padding:0px 0px 0px 0px; border:0px; cursor:pointer;" ><img src="boton/confirmar.jpg" alt="borrar" /></button> 
+    
+    </span></td>
+  </tr>
+</table>
+
+<input name="usuario" id="usuario" type="hidden" value="<?php echo $usu;?>">
+<input name="gestion" id="gestion" type="hidden" value="<?php echo $gestion_actual;?>">
+</form>
+    <?php }?>
+
+
+<?php
+@$ok=$_POST["ok"];
+@$usuario=$_POST["usuario"];
+@$gestion=$_POST["gestion"];
+@$interno=$_POST["interno"];
+@$ba=$_POST["ba"];
+
+$hoy=date("d/m/Y");
+//echo $gestion." el interno $interno";
+ if(!empty($interno)){
+
+	  ?>
+ 
+
+<br>
+    <br>
+	
+	<?php
+$sql = "INSERT into dam  values ('$interno','$gestion','$usuario','','INA')";
+// echo $sql;
+ if(mysql_query($sql,$link))
+   {
+        $ba=" El interno $interno fue reservado correctamente."; 
+		   echo" <SCRIPT LANGUAGE ='JavaScript'>
+<!-- se oculta la información de los navegadores antiguos
+      alert(' $ba ');
+	  
+// final del comentario -->
+</SCRIPT>";
+$im="exito.png";
+		   
+  }
+  
+  	ELSE{ $ba=" El interno $interno NO fue reservado correctamente";
+ 	echo" <SCRIPT LANGUAGE ='JavaScript'>
+	<!-- se oculta la información de los navegadores antiguos
+    	  alert(' $ba ');
+	// final del comentario -->
+	</SCRIPT>";
+	$im="error.png";
+  $id = mysql_insert_id(); 
+ }
+ 
+//}else{$im="error.png";}
+  ?>
+  
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#006666" bgcolor="#F3FADA" class="tabla_gral">
+<tr>
+    <td width="70" height="33" rowspan="3" valign="top" bgcolor="#F5F5F5"><div align="center"><img src="<?php echo"$im"; ?>" width="35" height="35"></div></td>
+        <td width="1134" height="30" colspan="4" bgcolor="#F5F5F5">
+        <span class="letra_titulo_azul">RESULTADO DEL REGISTRO</span><br></td>
+  </tr>
+<tr>
+  <td height="65" colspan="4" bgcolor="#F5F5F5" >
+  Respuesta:<?php echo"$ba"; ?><br>
+  Una vez que salga su formulario se actualizara
+  </td>
+</tr>
+<tr>
+  <td width="50%" height="57" align="right" bgcolor="#F5F5F5" >&nbsp;
+  
+   </td>
+  <td align="right" bgcolor="#F5F5F5" >&nbsp;</td>
+  <td align="right" bgcolor="#F5F5F5" >
+  <form name="form4" method="post" >
+      <div align="center">
+        <input name="interno" type="hidden" value="<?php echo"$interno";?>">
+   <button type="submit" name="OK"  id="OK" style="padding:0px 0px 0px 0px; border:0px; cursor:pointer;" onClick="enviar()" ><img src="boton/copiar_reserva.jpg" alt="borrar" /></button>
+      </div>
+	</form>
+  </td>
+  <td align="right" bgcolor="#F5F5F5" >&nbsp;</td>
+</tr>
+  </table>
+<?php } ?>
+
+ </td>
+	</tr>
+</table>
+</center> 
+
+</body>
+
+</html>
+
