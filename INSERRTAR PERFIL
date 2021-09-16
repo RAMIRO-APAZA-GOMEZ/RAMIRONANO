@@ -1,0 +1,742 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<?php 
+ 
+  include("conexion.php");
+ $link=conectarse();
+ //file_upload
+
+@$a2=$_POST["a2"];
+@$unidad2=$_POST["unidad2"];
+@$user=$_POST["user"];
+@$variable=$_POST["variable"];
+@$variable_nom=$_POST["variable_nom"];
+@$oki= @$_POST['oki'];
+@$ci= @$_GET['ci'];
+@$usu= @$_GET['usu'];
+if(empty($usu)){
+//@$ci= @$_POST['ci'];
+@$usu= @$_POST['usu'];
+}
+//echo "vlo $variable valor de adm $contra $usu";
+if(!empty($ci)){
+  $ci=trim($ci);	
+  @$variable="value='"."$ci"."'";
+  //echo "vlo $variable valor de adm $contra $usu";
+  $sqlc= mysql_query("select * from usuarios WHERE estado like 'ACT' and ci like '$ci' LIMIT 0, 2 ", $link);
+							$filasc = mysql_num_rows($sqlc);
+							if($filasc!=0)
+							{
+								while($datosc=mysql_fetch_array($sqlc))
+								{
+
+							@$nom=@$datosc[3];
+							$variable_nom="value='"."$nom"."'";
+								 
+								 }
+								}
+  
+  
+}
+
+@$base=$_POST["base"];
+@$base2=$_POST["base2"];
+@$men='';
+   
+ $contador=0;
+//echo"********** $month $day $year" ;
+
+
+		
+?><head>
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>WEB</title>
+<link href="estilos.css" rel="stylesheet" type="text/css">
+<link href= "../style.css" rel="stylesheet" type="text/css">
+
+    <script src="jquery.js"  type="text/javascript"></script>
+    <script language="javascript"> 
+    function iSubmitEnter(oEvento, oFormulario){ 
+     var iAscii; 
+
+     if (oEvento.keyCode) 
+         iAscii = oEvento.keyCode; 
+     else if (oEvento.which) 
+         iAscii = oEvento.which; 
+     else 
+         return false; 
+
+     if (iAscii == 13) oFormulario.submit(); 
+
+     return true; 
+} 
+//--> 
+
+
+    </script>
+
+
+    <script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+
+
+
+//-->
+    </script>
+	
+
+
+	<script type="text/javascript">
+	
+	function limpiar() {
+setTimeout('document.form2.reset()');
+return false;
+}
+
+function Validar(form){   
+
+if (form.a1.value == "") 
+  { 
+  alert('Por favor ingrese el NIT del Importador.');
+  form.a1.focus(); return; 
+  } 
+  
+   if (form.a2.value == "") 
+  { 
+  alert("Por favor ingrese el nombre del Importador."); 
+  form.a2.focus(); return; 
+  }
+  
+
+ 
+ if(form.a1.value != "" && form.a2.value != "" )
+   { 
+       form.submit(); 
+       }  
+
+ }
+
+</script>
+
+	
+	<script language="JavaScript">
+function Abrir_Ventana(el_url) { 
+var especificaciones="top=20,left=200,toolbar=no,location=no,status=no,menubar=no,scrollbars=SI,resizable=1,width=750,height=640" 
+//var especificaciones="scrollbars=0,menubar=1,width=200,height=175," 
+var titulo="VENTAN"
+window.open(el_url,titulo,especificaciones); 
+} 
+</script> 
+	
+	
+	
+	
+    <style type="text/css">
+<!--
+/*
+.bg_content, .heading_profile { 
+background-color: transparent !important; background-image:none important; 
+background-repeat: no-repeat; } 
+body { 
+background-position: topcenter; 
+background-repeat: no-repeat; 
+background-image: url(boton/001_titulo.jpg); 
+background-attachment: fixed; } 
+#p_center{ 
+background-color: 
+transparent !important; 
+background-image:none; 
+background-attachment:fixed; background-position: 
+center center; background-repeat: no-repeat; } 
+#p_container 
+{ background-color: transparent !important;} 
+*/
+
+.Estilo187 {font-size: 12px; color: #000000; }
+.Estilo189 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+body {
+	margin-top: 2px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.Estilo191 {
+	color: #7CAD32;
+	font-weight: bold;
+}
+
+.Estilo223 {font-size: 24}
+.Estilo232 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #585858; }
+.tooltip {
+ 
+border: #777 0px solid; direction: w; followMouse: true; content: title; 
+speed: 200; local: false; xOffset: 10; yOffset: 10; zIndex: 1000; 
+}
+#tooltip, #preview {
+ color: #FFFFFF;
+ background:#828B41;
+ }
+-->
+    </style>
+</head>
+
+
+<script>
+function resizeIframe(){
+var miIframe=document.getElementById("miIframe");
+var alturaPagina=miIframe.contentWindow.document.body.scrollHeight;
+miIframe.style.height=alturaPagina;
+}
+function resizeIframe0(){
+var miIframe0=document.getElementById("miIframe0");
+var alturaPagina=miIframe0.contentWindow.document.body.scrollHeight;
+miIframe0.style.height=alturaPagina;
+}
+
+
+
+function verificar(){
+  var X = (screen.width/2)-100;
+  var Y = (screen.height/2)-200;
+  var posicion = "left="+X+",top="+Y;
+  var ruta = document.form2.o.value;
+  var nombre = ruta.split('\\');
+  var nombre = nombre[nombre.length-1];
+  var direccion = '06comprueba_recepcion.php?nombre=' + nombre + ''
+  var referenciaVentana = window.open(direccion,'Preg','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=500,height=110,'+posicion);
+  //document.form2.adj.value="NO EXISTE PDF";
+}
+
+</script>
+			
+	
+	
+	
+
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+	//variables
+	var pass1 = $('[name=pass1]');
+	var pass2 = $('[name=pass2]');
+	var confirmacion = "Las contraseñas si coinciden";
+	var longitud = "La contraseña debe estar formada entre 6-10 carácteres (ambos inclusive)";
+	var negacion = "No coinciden las contraseñas";
+	var vacio = "La contraseña no puede estar vacía";
+	//oculto por defecto el elemento span
+	var span = $('<span_o></span_o>').insertAfter(pass2);
+	span.hide();
+	//función que comprueba las dos contraseñas
+	function coincidePassword(){
+	var valor1 = pass1.val();
+	var valor2 = pass2.val();
+	//muestro el span
+	span.show().removeClass();
+	//condiciones dentro de la función
+	if(valor1 != valor2){
+	span.text(negacion).addClass('negacion');	
+	}
+	if(valor1.length==0 || valor1==""){
+	span.text(vacio).addClass('negacion');	
+	}
+	if(valor1.length<6 || valor1.length>10){
+	span.text(longitud).addClass('negacion');
+	}
+	if(valor1.length!=0 && valor1==valor2){
+	span.text(confirmacion).addClass('confirmacion');
+	}
+	}
+	//ejecuto la función al soltar la tecla
+	pass2.keyup(function(){
+	coincidePassword();
+	});
+});
+</script>	
+		<script type="text/javascript">
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+        
+    // Patron de entrada, en este caso solo acepta numeros
+    patron =/[0-9-.]/;
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+function seleccion_recinto(){
+	
+var cod = document.getElementById("a5b").value;
+
+var fecha = new Date();
+var ano = fecha.getFullYear();
+//alert('El año actual es: '+ano);
+//alert(cod);
+ 
+/* Para obtener el texto */
+/*var combo = document.getElementById("a5b");
+var selected = combo.options[combo.selectedIndex].text;
+alert(selected);*/
+if(cod=="OTRO"){
+	document.form2.a8.value='';
+	document.form2.a9.value='';
+	}else{
+trozos = cod.split ("*");
+	     var a1 =(trozos[0]);
+	     var a2 =(trozos[1]);
+		 a1 = a1.replace(/\s/g," ");
+		 a2 = a2.replace(/\s/g," ");
+		 a1 = a1.trim();
+		 a2 = a2.trim();
+		 document.form2.a8.value=a1;
+		 document.form2.a9.value=a2;
+		 
+		 
+   }
+}
+
+</script>
+<script>
+function enviaycierra(){
+window.close();
+}
+</script>
+	<style type="text/css">
+<!--
+.enlace{
+background-image:url(boton/boton8.jpg);
+border: 1px #F0CF5B solid;
+width:92px; height: 24px; 
+}
+
+.enlace:focus {
+background-image:url(boton/boton9.jpg);
+border: 1px #F0CF5B solid;
+width:92px; height: 24px; 
+}
+
+div#toolTip {
+position:absolute;
+width:220px;
+background:#000;
+border:2px double #fff;
+text-align:left;
+padding:2px;
+-moz-border-radius:5px;
+z-index:1000;
+}
+div#toolTip p {
+margin:0;
+padding:0;
+color:#fff;
+font:11px/12px verdana,arial,serif;
+font-weight:bold;
+}
+div#toolTip p em {
+display:block;
+margin-top:3px;
+color:#000;
+font-style:normal;
+font-weight:bold;
+}
+.Estilo236 {color: #666666}
+.Estilo239 {color: #006699}
+
+.tooltip {
+border: #777 0px solid; direction: w; followMouse: true; content: title; 
+speed: 200; local: false; xOffset: 10; yOffset: 10; zIndex: 1000; 
+}
+#tooltip, #preview {
+ color:#666666;
+ background:#FFDD55;
+ }
+.Estilo240 {color: #000000}
+.Estilo241 {font-size: 14px}
+
+-->
+    </style>
+	
+
+
+	
+				
+</head>
+
+<?PHP
+@$fecha_actual_a = date("Y");
+@$fecha_actual_b = date("y");
+
+
+$resp= mysql_query("SELECT * FROM usuarios order by codigo", $link);
+$filas=mysql_num_rows($resp);
+
+while($datos=mysql_fetch_array($resp))
+{
+//set_time_limit(1000);
+
+$d0=@$datos[0]; 
+ 
+}
+$ci=trim($ci);
+$no_entrar_b=0;
+	 $sql= mysql_query("select * FROM usuarios WHERE estado like 'ACT' and  ci like '$ci' ", $link);
+	 //echo"select * FROM usuarios WHERE estado like 'ACT' and  ci like '$ci' ";
+	 $filas = mysql_num_rows($sql);
+	 if($filas!=0){  while($datos=mysql_fetch_array($sql))
+								{
+							@$dat1=@$datos[1];
+							@$dat2=@$datos[2];
+							@$dat3=@$datos[3];
+							@$dat6=@$datos[6];
+							$no_entrar_b=1;
+							$ba="El Usuario con C.I. $dat2 ya fue resgitrado con el nombre $dat1 . Revise nuevamente. <br>";
+							$im="error.png";
+							}
+						}
+  //echo "***".$no_entrar_b;
+
+
+?>
+
+
+
+<body>
+
+
+					<div align="center"></div>
+					
+                  <div align="center">
+  <?php if(empty($oki)and $no_entrar_b==0){?>
+  
+  <table width="93%"  border="0" align="center" cellpadding="0" cellspacing="0" class="table_a">
+                                  
+            <tr>
+              <td width="87%" height="34" bgcolor="#BB0B3A"><div align="center"><span class="Estilo25 Estilo191">
+              <span class="letra_titulo_blanco"><u>INSERTAR NUEVO PERFIL DE USUARIO</u></span></span></div></td>
+            </tr>
+            <tr>
+              <td height="26" bgcolor="#E7E7E7" class="texto_general">
+              <p>Ingrese datos del Usuario, ingresando los datos requeridos en el formulario.</p></td>
+    </tr>
+		       <tr>
+                 <td height="214" valign="top" bgcolor="#F5F5F5">
+						    
+				   <form action="01insertar_perfil.php" method="post" enctype="multipart/form-data" name="form2" id="form2" >
+    
+					 
+				       <center>
+				        
+				         <table width="100%" height="351"  border="0" cellpadding="0" cellspacing="0">
+                           <tr>
+                             <td width="86%" height="92" rowspan="2">							 
+                             <table width="99%" height="191" border="0" align="center" cellpadding="0" cellspacing="0">
+                               <tr>
+                                 <td width="2%">&nbsp;</td>
+                                 <td width="38%" height="27" class="texto_general"><div align="left"><strong>NRO.</strong></div></td>
+                                 <td width="60%" valign="middle"><div align="left"><span class="Estilo189"><span class="Estilo187">
+                                     <div align="left"><span class="Estilo189"><span class="Estilo187">
+ 									<input  name="a0" type="text" class="input" id="username" style="text-transform: uppercase;" onChange="agregar10()" value="<?php echo $d0+1; ?> "  size="40" readonly  >
+                                     </span></span></div>
+                               </tr>
+                               <tr>
+                                 <td>&nbsp;</td>
+                                 <td height="22" class="texto_general"><div align="left"><strong>NOMBRE COMPLETO (*)</strong></div></td>
+                                 <td valign="middle"><span class="Estilo189"><span class="Estilo187">
+                                   <input name="a1" type="text" autofocus class="input" id="a1" placeholder="Nombre y Apellido" max="10" min="6" onKeyUp="this.value=this.value.toUpperCase()" size="40" <?php echo $variable_nom; ?>/>
+                                 </span></span></td>
+                               </tr>
+                               <tr>
+                                 <td>&nbsp;</td>
+                                 <td height="22" class="texto_general"><div align="left"><strong>CARNET DE IDENTIDAD(*)</strong></div></td>
+                                 <td valign="middle"><span class="Estilo189"><span class="Estilo187">
+                                   <input name="a6" type="text" class="input" id="a6" placeholder="Escriba el Nro. de C.I." max="10" min="6" onKeyUp="this.value=this.value.toUpperCase()"  size="18" <?php echo $variable; ?> />
+                                   <input name="a5" type="text" class="input" placeholder="Ciudad" onKeyUp="this.value=this.value.toUpperCase()"  max="10" min="6" size="17" id="a5"/>
+                                 </span></span></td>
+                               </tr>
+                               <tr>
+                                 <td>&nbsp;</td>
+                                 <td height="24" class="texto_general"><div align="left"><strong>NOMBRE DE USUARIO (*)</strong></div></td>
+                                 <td height="24" valign="middle"><span class="Estilo187">
+                                   <input name="a2" type="text" class="input" placeholder="Nombre o Nick del Usuario" onKeyUp="this.value=this.value.toUpperCase()" max="10" min="6" size="40" id="a2"/>
+                                 </span></td>
+                               </tr>
+                               <tr>
+                                 <td>&nbsp;</td>
+                                 <td height="24" class="texto_general"><div align="left"><strong>CONTRASEÑA (*)</strong></div></td>
+                                 <td height="24" valign="middle"><span class="Estilo187">
+                                   <input name="a3" type="text" class="input" placeholder="Contraseña por defecto"  max="10" min="6" size="40" id="a3"/>
+                                 </span></td>
+                               </tr>
+                               <tr>
+                                 <td>&nbsp;</td>
+                                 <td height="24" class="texto_general"><div align="left"><strong>CORREO ELECTRONICO</strong></div></td>
+                                 <td height="24" valign="middle"><span class="Estilo187">
+                                   <input name="a13" type="text" class="input" placeholder="Correo electronico" max="10" min="6" size="40" id="a13"/>
+                                 </span></td>
+                               </tr>
+                               <tr>
+                                 <td>&nbsp;</td>
+                                 <td height="24" class="texto_general"><div align="left"><strong>NUMERO DE CELULAR</strong></div></td>
+                                 <td height="24" valign="middle"><span class="Estilo187">
+                                   <input name="a14" type="text" class="input" placeholder="Celular de Ref." max="10" min="6" size="40" id="a14"/>
+                                 </span></td>
+                               </tr>
+                               </table>
+                            <table width="95%"  border="0" cellpadding="1" cellspacing="0" class="table_sin_marco" >
+                       <tr>
+                         <td width="2%" height="29" >&nbsp;</td>
+                         <td width="49%" class="texto_comun_negrilla">*ACCESOS PERMITIDOS</td>
+                         <td width="49%" colspan="2" class="texto_general">&nbsp;</td>
+                         </tr>
+                       <tr>
+                         <td >&nbsp;</td>
+                         <td bgcolor="#E8F7D7" class="texto_general"><input name="a4a" type="checkbox" id="a4a" value="1">
+                           Solicitar Interno                           <label for="checkbox"></label>
+                         </td>
+          <td colspan="2" bgcolor="#FDE3F9" class="texto_general"><input type="checkbox" name="a4e" id="a4e" value="1">
+            Sistema de Control de Archivo.</td>
+                         </tr>
+                       <tr>
+                         <td >&nbsp;</td>
+                         <td bgcolor="#E8F7D7" class="texto_general"><input type="checkbox" name="a4b" id="a4b" value="1">
+                         Reportes y Consultas de Int.</td>
+                         <td colspan="2" bgcolor="#BAEDEB" class="texto_general"><input type="checkbox" name="a4f" id="a4f" value="1">
+                         Cotizacion.</td>
+                         </tr>
+                       <tr>
+                         <td >&nbsp;</td>
+                         <td bgcolor="#E8F7D7" class="texto_general"><input type="checkbox" name="a4c" id="a4c" value="1">
+                         Sistema de Control de Internos Adm.</td>
+                         <td colspan="2" bgcolor="#FFFFE6" class="texto_general"><input name="a4z" type="checkbox" id="a4z" value="1" checked="CHECKED">
+                         Cambio de contraseña.</td>
+                         </tr>
+                       <tr>
+                         <td >&nbsp;</td>
+                         <td bgcolor="#DDF7FF" class="texto_general"><input type="checkbox" name="a4d" id="a4d" value="1">
+                         Sistema de Adminitración de Perfil.</td>
+                         <td colspan="2" bgcolor="#DCE4FA" class="texto_general">&nbsp;</td>
+                         </tr>
+                       <tr>
+                         <td >&nbsp;</td>
+                         <td>&nbsp;</td>
+                         <td colspan="2" class="Estilo176">&nbsp;</td>
+                         </tr>
+                     </table>
+							
+							
+							 
+							 </td>
+                             <td width="14%" height="96" align="center" valign="top"><span class="Estilo223">
+                             <input name="OK" type="button" class="input_bot1" id="OK" style="border : 1px solid #FFCC00;" value="." onClick="Validar(this.form)">
+    </span>
+                        <p> </p>
+                <button  onClick="this.form.reset(); document.form2.ci.value='';" name="borrar" style="padding:0px 0px 0px 0px; border:0px;cursor:pointer;"><img src="boton/limpiar_formulario.jpg" alt="borrar" /></button>
+
+    </td>
+                           </tr>
+                           <tr>
+                             <td height="50" align="center" valign="top"><span class="Estilo223">
+                             </span></td>
+                           </tr>
+                         </table>
+                         <input name="ci" type="hidden" value="<?php echo"$ci"; ?>">
+                         <input name="usu" type="hidden" value="<?php echo"$usu"; ?>">
+                         <input name="user" type="hidden" value="<?php echo"$user"; ?>">
+							    
+							
+                         <input name="oki" type="hidden" value="1">
+                         <input name="unidad2" type="hidden" value="<?php echo"$unidad2"; ?>">
+                         
+                       </center>
+							    
+										
+							    
+							
+                   </form>  
+		         </td>
+                 
+    </tr>
+    </table>
+
+  <p>
+    <?php 
+// PARA ACEPTAR SOLO NUMEROS onkeyup="this.value = this.value.replace (/[^1-9]/, ''); "
+                
+ }else{if($no_entrar_b==1){ ?>
+  </p>
+  <p>&nbsp; </p>
+  <table width="90%" border="0" cellpadding="0" cellspacing="0" class="tabla_gral">
+    <tr>
+    <td width="11%" height="49" align="center"><img src="<?php echo $im; ?>" ></td>
+    <td width="85%" align="left"><?php echo $ba; ?></td>
+    <td width="4%">&nbsp;</td>
+  </tr>
+</table>
+
+<?php } }?>
+<br>
+    <br>
+	
+	<?php
+@$OK=$_POST["OK"];
+@$recinto=$_POST["recinto"];
+
+@$a0=$_POST["a0"];
+@$a1=$_POST["a1"];
+@$a2=$_POST["a2"];
+@$a3=$_POST["a3"];
+@$a4=$_POST["a4"];
+@$a5=$_POST["a5"];
+@$a6=$_POST["a6"];
+@$a7=$_POST["a7"];
+@$a8=$_POST["a8"];
+@$a9=$_POST["a9"];
+@$a10=$_POST["a10"];
+@$a13=$_POST["a13"];
+@$a14=$_POST["a14"];
+
+@$usu= @$_POST['usu'];
+$a1=trim($a1);
+@$s=$_POST["s"];
+@$fecha_hoy=date('Y-m-d');
+//echo "valor de a4 $a6";
+ if(!empty($a6)){
+	 $no_entrar=0;
+	 $sqlc= mysql_query("select * FROM usuarios WHERE estado like 'ACT' and ci like '$a2' ", $link);
+	 $filasc = mysql_num_rows($sqlc);
+	 if($filasc!=0){  while($datosc=mysql_fetch_array($sqlc))
+								{
+							@$dat1=@$datosc[1];
+							@$dat2=@$datosc[2];
+							@$dat3=@$datosc[3];
+							@$dat6=@$datosc[6];
+							$no_entrar=1;
+							$ba="<br>El usuario con C.I. $dat2 ya fue resgitrado con el nombre $dat1 . Revise nuevamente.<br>";
+								 }
+								}
+  
+  //echo"no entra $no_entrar";
+if($no_entrar==0){	 
+ //$a2=Reemplaza_Acentos($a2);
+ 	 
+ $a1=trim($a1); 
+ $acce=''; 
+if (isset($_POST['a4a']) && $_POST['a4a'] == '1'){
+      $accesoa='A*';  $acce=$acce.$accesoa;
+}
+
+if (isset($_POST['a4f']) && $_POST['a4f'] == '1'){
+      $accesob='F*';  $acce=$acce.$accesob;
+}
+
+
+if (isset($_POST['a4b']) && $_POST['a4b'] == '1'){
+      $accesod='B*'; $acce=$acce.$accesod;
+}
+if (isset($_POST['a4e']) && $_POST['a4e'] == '1'){
+      $accesoe='E*'; $acce=$acce.$accesoe;
+}
+if (isset($_POST['a4c']) && $_POST['a4c'] == '1'){
+      $accesof='C*'; $acce=$acce.$accesof;
+}
+if (isset($_POST['a4d']) && $_POST['a4d'] == '1'){
+      $accesod='D*'; $acce=$acce.$accesod;
+}
+
+@$ci_ciu="";
+if($a5=="LA PAZ"){$ci_ciu="LP";}
+if($a5=="ORURO"){$ci_ciu="OR";}
+if($a5=="POTOSI"){$ci_ciu="PT";}
+if($a5=="COCHABAMBA"){$ci_ciu="CB";}
+if($a5=="CHUQUISACA"){$ci_ciu="CH";}
+if($a5=="SANTA CRUZ"){$ci_ciu="SC";}
+if($a5=="BENI"){$ci_ciu="BN";}
+if($a5=="TARIJA"){$ci_ciu="TJ";}
+
+$acceso=$acce."Z";
+$acceso=ltrim ($acceso); $acceso=rtrim ($acceso);
+$sql = "INSERT into usuarios  values ('$a0','$a1','$a6','$a5','$a2','$a3','$acceso','ACT','$fecha_hoy','$ci_ciu','','','','$a13','$a14','$usu')";
+//echo $sql;
+ if(mysql_query($sql,$link))
+   {
+        $ba=" Los datos fueron insertados correctamente."; 
+		   echo" <SCRIPT LANGUAGE ='JavaScript'>
+<!-- se oculta la información de los navegadores antiguos
+      alert(' $ba ');
+	  
+// final del comentario -->
+</SCRIPT>";
+$im="exito.png";		   
+  }
+  
+  	ELSE{ $ba=" Los datos NO fueron insertados correctamente.";
+ 	echo" <SCRIPT LANGUAGE ='JavaScript'>
+	<!-- se oculta la información de los navegadores antiguos
+    	  alert(' $ba ');
+	// final del comentario -->
+	</SCRIPT>";
+	$im="error.png";
+  $id = mysql_insert_id(); 
+ }
+ 
+}else{$im="error.png";}
+  ?>
+  
+  <table width="92%" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#006666" bgcolor="#F3FADA" class="tabla_gral">
+<tr>
+    <td width="70" height="33" rowspan="3" valign="top" bgcolor="#F5F5F5"><div align="center"><img src="<?php echo"$im"; ?>" width="35" height="35"></div></td>
+        <td width="1134" height="30" colspan="4" bgcolor="#F5F5F5">
+        <span class="letra_titulo_azul">RESULTADO DEL REGISTRO</span><br></td>
+  </tr>
+<tr>
+  <td height="65" colspan="4" bgcolor="#F5F5F5" >Respuesta:<?php echo"$ba"; ?><br></td>
+</tr>
+<tr>
+  <td width="50%" height="57" align="right" bgcolor="#F5F5F5" >&nbsp;
+  
+   </td>
+  <td align="right" bgcolor="#F5F5F5" >&nbsp;</td>
+  <td align="right" bgcolor="#F5F5F5" >
+  
+  </td>
+  <td align="right" bgcolor="#F5F5F5" >
+  <img src="boton/limpiar_Salir.jpg" onClick="javascript:enviaycierra();">  
+  </td>
+</tr>
+  </table>
+  <?php }
+  ?>
+                  </div>
+</body>
+</html>		
+ <SCRIPT>
+$('input[type="text"]').focus(function() {
+	$(this).addClass("focus");
+});
+
+$('input[type="text"]').blur(function() {
+	$(this).removeClass("focus");
+});
+
+$('input[type="file"]').blur(function() {
+	$(this).removeClass("focus");
+});
+
+$('input[type="select"]').blur(function() {
+	$(this).removeClass("focus");
+});
+
+</SCRIPT>
+
+
