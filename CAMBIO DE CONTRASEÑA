@@ -1,0 +1,692 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<?php 
+ include("../conexion.php");
+ $link=conectarse();
+
+$codusu = @$_POST['codusu']; 
+$codzona = @$_POST['codzona']; 
+$unidad = @$_POST['unidad']; 
+$recinto = @$_POST['recinto']; 
+$ci = @$_POST['ci'];
+@$usu= @$_POST['usu'];
+@$OK= @$_POST['OK'];
+@$reci= @$_POST['reci'];
+@$nomp= @$_POST['nomp'];
+
+  
+$unidad2 = @$_POST['unidad2'];
+ @$adm1 = $_POST['adm1']; 
+//echo "ASIGNADOR 22 $adm1 $codzona $codusu $user";
+@$sela=" ";
+@$selb=" ";
+
+@$men='';
+   
+@$hoy=date ( "j / n / Y" );
+@list( $month, $day, $year) = @split( '/', $hoy );
+ $year=ltrim ($year);
+ $month=ltrim ($month);
+ $day=ltrim ($day);
+ $year=rtrim ($year);
+ $month=rtrim ($month);
+ $day=rtrim ($day);
+ 
+ $contador=0;
+//echo"********** $month $day $year" ;
+
+@$fecha=$month."/".$day."/".$year;
+
+if($day=="1"){$day="01"; }
+if($day=="2"){$day="02"; }
+if($day=="3"){$day="03"; }
+if($day=="4"){$day="04"; }
+if($day=="5"){$day="05"; }
+if($day=="6"){$day="06"; }
+if($day=="7"){$day="07"; }
+if($day=="8"){$day="08"; }
+if($day=="9"){$day="09"; }
+
+if($month=="1"){$month="01"; }
+if($month=="2"){$month="02"; }
+if($month=="3"){$month="03"; }
+if($month=="4"){$month="04"; }
+if($month=="5"){$month="05"; }
+if($month=="6"){$month="06"; }
+if($month=="7"){$month="07"; }
+if($month=="8"){$month="08"; }
+if($month=="9"){$month="09"; }
+		
+?><head>
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>CUPERS</title>
+<link href="estilos.css" rel="stylesheet" type="text/css">
+<link href= "../style.css" rel="stylesheet" type="text/css">
+
+    <script src="jquery.js"  type="text/javascript"></script>
+    <script language="javascript"> 
+    function iSubmitEnter(oEvento, oFormulario){ 
+     var iAscii; 
+
+     if (oEvento.keyCode) 
+         iAscii = oEvento.keyCode; 
+     else if (oEvento.which) 
+         iAscii = oEvento.which; 
+     else 
+         return false; 
+
+     if (iAscii == 13) oFormulario.submit(); 
+
+     return true; 
+} 
+//--> 
+
+
+    </script>
+
+
+    <script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+
+function agregar() {
+var valor2=document.form2.e.value;
+var valor1=document.form2.o.value;
+var valor2=valor2.replace(/[-[\]{}()":º~&*!%€¬+·?!ª.,\\^$|#\s]/g, "");
+var valor2=valor2.replace('/', '');
+var valor2=valor2.replace('Ñ', 'N');
+var valor2=valor2.replace('ñ', 'n');
+
+var valor2=valor2.replace('á', 'a');
+var valor2=valor2.replace('é', 'e');
+var valor2=valor2.replace('í', 'i');
+var valor2=valor2.replace('ó', 'o');
+var valor2=valor2.replace('ú', 'u');
+
+var valor2=valor2.replace('Á', 'A');
+var valor2=valor2.replace('É', 'E');
+var valor2=valor2.replace('Í', 'I');
+var valor2=valor2.replace('Ó', 'O');
+var valor2=valor2.replace('Ú', 'U');
+
+var valor2=valor2.substring(0,14);
+var raya="_";
+document.form2.o.value=valor1+raya+valor2;
+}
+
+function agregar2() {
+var valo2=document.form2.i.value;
+var valo1=document.form2.o.value;
+var valo2=valo2.replace(/[-[\]{}()" :º~&*!%€¬+·?!ª/.,\\^$|#\s]/g, "");
+var valo2=valo2.replace('/', '');
+var valo2=valo2.replace('Ñ','N');
+var valo2=valo2.replace('á', 'a');
+var valo2=valo2.replace('é', 'e');
+var valo2=valo2.replace('í', 'i');
+var valo2=valo2.replace('ó', 'o');
+var valo2=valo2.replace('ú', 'u');
+
+var valo2=valo2.replace('Á', 'A');
+var valo2=valo2.replace('É', 'E');
+var valo2=valo2.replace('Í', 'I');
+var valo2=valo2.replace('Ó', 'O');
+var valo2=valo2.replace('Ú', 'U');
+
+var raya="_";
+var valo2=valo2.substring(0,31);
+document.form2.o.value=valo1+raya+valo2;
+
+}
+function agregar10() {
+
+var valor1=document.form2.corr.value;
+var valor3=document.form2.aniob.value;
+var valor4=document.form2.anioa.value;
+var valor_re=document.form2.recin.value;
+var valor_tipoc=document.form2.tipoc.value;
+var valor2=0;
+//valor2.format("%08d",valor1);
+document.form2.s.value=valor_tipoc+"_"+valor1+'_'+valor3;
+document.form2.o.value=valor_tipoc+"_"+valor1+'_'+valor3;
+document.form2.b.value=valor_tipoc+" "+valor_re+" "+valor1+'/'+valor4;
+}
+
+
+function sel(valor){ 
+
+	if (valor == 1) { 
+	document.getElementById('ocult1').style.display='none';
+	}
+	if (valor == 2) { 
+	document.getElementById('ocult1').style.display='block';
+	}
+	if (valor == 3) { 
+	document.getElementById('ocult1').style.display='block';
+	}
+	
+	if (valor == 0) { 
+	document.getElementById('ocult1').style.display='none';
+	}
+	
+	
+	
+}
+
+
+//-->
+    </script>
+	
+
+
+	<script type="text/javascript">
+	
+	function limpiar() {
+setTimeout('document.form2.reset()');
+return false;
+}
+
+function Validar(form){   
+
+if (form.e.value == "") 
+  { 
+  alert('Por favor registre el REMITENTE de la carta.');
+  form.e.focus(); return; 
+  } 
+  
+   if (form.i.value == "") 
+  { 
+  alert("Por favor registre la REFERENCIA de la carta."); 
+  form.i.focus(); return; 
+  }
+  
+  if (form.adj.value == "") 
+  { 
+  alert("Por favor VERIFIQUE que el documento ha sido escaneado. Haga click en el boton 'REVISAR PDF' "); 
+  form.f.focus(); return; 
+  } 
+  
+
+ if (form.pdf.value =='SI' && form.adj.value == "NO EXISTE PDF") 
+  { 
+  alert("Por favor VERIFIQUE que el documento ha sido escaneado. Haga click en el boton 'REVISAR PDF' "); 
+  form.f.focus(); return; 
+  } 
+  
+   if (form.pdf.value =="NO") 
+  { 
+  form.adj.value="SIN PDF";
+  }
+  
+  
+ if (confirm('Esta seguro de enviar este formulario? \n Recuerde que la información es enviada a la BD Principal.'))
+   { 
+       
+//parent.form.submit()
+//parent.marco1.form.submit();
+	   form.submit();
+	   // return true; 
+//href='01intro_recepcion.php';
+//form.reset(); 
+//form.location.reload(true);
+//form.reload(true);
+//form.reset(); 
+//document.location.reload(); 
+//setTimeout("location.reload(true);",1500);
+       }  
+
+ }
+
+
+</script>
+
+	
+	<script language="JavaScript">
+function Abrir_Ventana(el_url) { 
+var especificaciones="top=20,left=200,toolbar=no,location=no,status=no,menubar=no,scrollbars=SI,resizable=1,width=750,height=640" 
+//var especificaciones="scrollbars=0,menubar=1,width=200,height=175," 
+var titulo="VENTAN"
+window.open(el_url,titulo,especificaciones); 
+} 
+</script> 
+	
+	
+	
+	
+    <style type="text/css">
+<!--
+/*
+.bg_content, .heading_profile { 
+background-color: transparent !important; background-image:none important; 
+background-repeat: no-repeat; } 
+body { 
+background-position: topcenter; 
+background-repeat: no-repeat; 
+background-image: url(boton/001_titulo.jpg); 
+background-attachment: fixed; } 
+#p_center{ 
+background-color: 
+transparent !important; 
+background-image:none; 
+background-attachment:fixed; background-position: 
+center center; background-repeat: no-repeat; } 
+#p_container 
+{ background-color: transparent !important;} 
+*/
+
+.Estilo187 {font-size: 12px; color: #000000; }
+.Estilo189 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+body {
+	margin-top: 2px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.Estilo191 {
+	color: #7CAD32;
+	font-weight: bold;
+}
+.Estilo223 {font-size: 24}
+.Estilo232 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #585858; }
+.tooltip {
+ 
+border: #777 0px solid; direction: w; followMouse: true; content: title; 
+speed: 200; local: false; xOffset: 10; yOffset: 10; zIndex: 1000; 
+}
+#tooltip, #preview {
+ color: #FFFFFF;
+ background:#828B41;
+ }
+-->
+    </style>
+</head>
+
+
+<script>
+function resizeIframe(){
+var miIframe=document.getElementById("miIframe");
+var alturaPagina=miIframe.contentWindow.document.body.scrollHeight;
+miIframe.style.height=alturaPagina;
+}
+function resizeIframe0(){
+var miIframe0=document.getElementById("miIframe0");
+var alturaPagina=miIframe0.contentWindow.document.body.scrollHeight;
+miIframe0.style.height=alturaPagina;
+}
+
+
+
+function fin(cor){ 
+    if (cor == 0) { document.form2.adj.value= "NO EXISTE PDF";}
+	if (cor == 1) { document.form2.adj.value= "SIN PDF";}
+	if (cor == 2) { document.form2.adj.value= "EN ESPERA";}
+	
+}
+function verificar(){
+  var X = (screen.width/2)-100;
+  var Y = (screen.height/2)-200;
+  var posicion = "left="+X+",top="+Y;
+  var ruta = document.form2.o.value;
+  var nombre = ruta.split('\\');
+  var nombre = nombre[nombre.length-1];
+  var direccion = '06comprueba_recepcion.php?nombre=' + nombre + ''
+  var referenciaVentana = window.open(direccion,'Preg','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=500,height=110,'+posicion);
+  //document.form2.adj.value="NO EXISTE PDF";
+}
+
+</script>
+			
+	
+	
+	
+
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+	//variables
+	var pass1 = $('[name=pass1]');
+	var pass2 = $('[name=pass2]');
+	var confirmacion = "Las contraseñas si coinciden";
+	var longitud = "La contraseña debe estar formada entre 6-10 carácteres (ambos inclusive)";
+	var negacion = "No coinciden las contraseñas";
+	var vacio = "La contraseña no puede estar vacía";
+	//oculto por defecto el elemento span
+	var span = $('<span_o></span_o>').insertAfter(pass2);
+	span.hide();
+	//función que comprueba las dos contraseñas
+	function coincidePassword(){
+	var valor1 = pass1.val();
+	var valor2 = pass2.val();
+	//muestro el span
+	span.show().removeClass();
+	//condiciones dentro de la función
+	if(valor1 != valor2){
+	span.text(negacion).addClass('negacion');	
+	}
+	if(valor1.length==0 || valor1==""){
+	span.text(vacio).addClass('negacion');	
+	}
+	if(valor1.length<6 || valor1.length>10){
+	span.text(longitud).addClass('negacion');
+	}
+	if(valor1.length!=0 && valor1==valor2){
+	span.text(confirmacion).addClass('confirmacion');
+	}
+	}
+	//ejecuto la función al soltar la tecla
+	pass2.keyup(function(){
+	coincidePassword();
+	});
+});
+</script>	
+		
+<script type="text/javascript" src="js/addEvent.js"></script>
+<script type="text/javascript" src="js/sweetTitles.js"></script>
+	
+	<style type="text/css">
+<!--
+.enlace{
+background-image:url(boton/boton8.jpg);
+border: 1px #F0CF5B solid;
+width:92px; height: 24px; 
+}
+
+.enlace:focus {
+background-image:url(boton/boton9.jpg);
+border: 1px #F0CF5B solid;
+width:92px; height: 24px; 
+}
+
+div#toolTip {
+position:absolute;
+width:220px;
+background:#000;
+border:2px double #fff;
+text-align:left;
+padding:2px;
+-moz-border-radius:5px;
+z-index:1000;
+}
+div#toolTip p {
+margin:0;
+padding:0;
+color:#fff;
+font:11px/12px verdana,arial,serif;
+font-weight:bold;
+}
+div#toolTip p em {
+display:block;
+margin-top:3px;
+color:#000;
+font-style:normal;
+font-weight:bold;
+}
+.Estilo236 {color: #666666}
+.Estilo239 {color: #006699}
+
+.tooltip {
+border: #777 0px solid; direction: w; followMouse: true; content: title; 
+speed: 200; local: false; xOffset: 10; yOffset: 10; zIndex: 1000; 
+}
+#tooltip, #preview {
+ color:#666666;
+ background:#FFDD55;
+ }
+.Estilo240 {color: #000000}
+.Estilo241 {font-size: 14px}
+
+-->
+    </style>
+	
+	
+	<script src="demo/demo.js"></script>
+<script src="js/jquery.jatt.js"></script>
+<!-- Jatt initialization, see docs for options -->
+<script>
+$(function(){
+ $.jatt();
+});
+</script>
+	
+	
+	
+				
+</head>
+
+<?PHP
+@$fecha_actual_a = date("Y");
+@$fecha_actual_b = date("y");
+
+//echo"fecha actual $fecha_actual_a ---- $fecha_actual_b";
+
+function add_ceros($numero,$ceros) {
+$order_diez = explode(".",$numero); 
+$dif_diez = $ceros - strlen($order_diez[0]); 
+for($m = 0 ; 
+$m < $dif_diez;
+$m++) 
+{ 
+@$insertar_ceros .= 0;
+} 
+return $insertar_ceros .= $numero; 
+}
+
+
+
+
+
+
+?>
+
+
+
+<body>
+
+<div align="center"></div>
+					
+                  <div align="center">
+  <?php if(empty($OK)){?>
+  
+  <table width="93%"  border="0" align="center" cellpadding="0" cellspacing="0" class="tablePLOMO">
+                                  
+            <tr>
+              <td width="87%" height="42" bgcolor="#BB0B3A"><div align="center"><span class="letra_titulo_blanco">CAMBIAR CONTRASE&Ntilde;A </span></div></td>
+            </tr>
+            <tr>
+              <td height="33" bgcolor="#FFFBEC">
+              <span class="texto_comun" >
+              &nbsp;NOTA .- Recuerde que al actualizar su contrase&ntilde;a da de baja a la antigua. </span></td>
+    </tr>
+		       <tr>
+                 <td height="20" valign="top" bgcolor="#FFFBEC">
+						    
+				   <form action="09pasword.php" method="post" enctype="multipart/form-data" name="form2" id="form2">
+    
+				 <input  name="aniob" type="hidden"  id="username" value="<?php echo"$fecha_actual_b"; ?>"  size="25">
+				 <input  name="anioa" type="hidden"  id="username" value="<?php echo"$fecha_actual_a"; ?>"  size="25">
+					   <input  name="recin" type="hidden"  id="username" value="<?php echo"$reci"; ?>"  size="25">
+					   <input  name="tipoc" type="hidden"  id="username" value="<?php echo"$nomp"; ?>"  size="25">
+				       <center>
+				         <span class="Estilo189"><span class="Estilo187">
+				         </span></span>
+				         <table width="100%" height="127"  border="0" cellpadding="0" cellspacing="0">
+                           <tr>
+                             <td width="79%" height="127">							 <table width="99%" height="84" border="0" align="center" cellpadding="0" cellspacing="0">
+                               <tr bgcolor="#FFF3C4">
+                                 <td width="3%" bgcolor="#FFFBEC">&nbsp;</td>
+                                 <td width="35%" height="27" bgcolor="#FFFBEC" class="texto_general"><div align="left">Introduzca su contrase&ntilde;a antigua </div></td>
+                                 <td width="62%" valign="middle" bgcolor="#FFFBEC"><div align="left"><span class="Estilo189"><span class="Estilo187">
+                                     <div align="left"><span class="Estilo189"><span class="Estilo187">
+                                       <input  name="contra" type="password" class="input" placeholder="Escriba la contraseña actual" onKeyUp="this.value=this.value.toUpperCase()" size="35">
+                                       <img src="help0.png" width="16" height="16" align="bottom" class="tooltip" title="Introdusca su contraseña actual">
+									   </span></span></div>
+                               </tr>
+                               <tr bgcolor="#FFF3C4">
+                                 <td bgcolor="#FFFBEC">&nbsp;</td>
+                                 <td height="25" bgcolor="#FFFBEC" class="texto_general">Introduzca contrase&ntilde;a nueva</td>
+                                 <td valign="middle" bgcolor="#FFFBEC"><span class="Estilo189"><span class="Estilo187">
+                                   <input name="pass1" type="password" autofocus class="input" placeholder="Escriba la contraseña nueva" onKeyUp="this.value=this.value.toUpperCase()" max="10" min="6" size="35"/>
+                                   </span></span></td>
+                               </tr>
+                               <tr bgcolor="#FFF3C4">
+                                 <td bgcolor="#FFFBEC"><span class="Estilo189"><span class="Estilo187"> </span></span></td>
+                                 <td height="24" bgcolor="#FFFBEC" class="texto_general"><div align="left">Repita la contrase&ntilde;a nueva </div></td>
+                                 <td height="24" valign="middle" bgcolor="#FFFBEC"><div align="left"><span class="Estilo189"><span class="Estilo187">
+                                    
+									<input name="pass2" type="password" class="input" placeholder="Vuelva a escribir la contraseña nueva" onKeyUp="this.value=this.value.toUpperCase()" max="10" min="6" size="35"/>
+
+                                     </span></span></div></td>
+                               </tr>
+                             </table>
+							
+							
+							 
+							 </td>
+                             <td width="10%" height="127" align="center" valign="middle"><span class="Estilo223">
+                             <input name="OK" type="submit" class="input_pasword_pri" id="OK" style="border : 1px solid #FFCC00;" value=".">
+    </span></td>
+                             <td width="11%" align="center" valign="middle">
+                               <input name="Submit" type="reset" class="input_limpiar" value="." style="border : 1px solid #FFCC00;">
+</td>
+                           </tr>
+                         </table>
+				         <input name="codzona" type="hidden" value="<?php echo"$codzona"; ?>">
+						 <input name="codusu" type="hidden" value="<?php echo"$codusu"; ?>">
+                         <input name="nitusu1" type="hidden" value="">
+                         <input name="recinto" type="hidden" value="<?php echo"$recinto"; ?>">
+                         <input name="usu" type="hidden" value="<?php echo"$usu"; ?>">
+							    
+							
+                         <input name="ci" type="hidden" value="<?php echo"$ci"; ?>">
+                         <input name="unidad2" type="hidden" value="<?php echo"$unidad2"; ?>">
+                         <?php 
+// PARA ACEPTAR SOLO NUMEROS onkeyup="this.value = this.value.replace (/[^1-9]/, ''); "
+                
+ } ?>
+                       </center>
+							    
+										
+							    
+							
+                   </form>  
+		         </td>
+                 
+    </tr>
+    <TR>
+      <TD height="21" bgcolor="#FFFBEC">&nbsp;</TD>
+    </TR>
+					      
+</table>
+<?php ?>
+  
+	
+	<?php
+@$OK=$_POST["OK"];
+@$recinto=$_POST["recinto"];
+@$usu=$_POST["usu"];
+
+@$contra=$_POST["contra"];
+@$s=$_POST["s"];
+$contra=rtrim ($contra);
+$contra=ltrim ($contra);
+$contra=trim ($contra);
+
+@$pass1=$_POST["pass1"];
+$pass1=rtrim ($pass1);
+$pass1=ltrim ($pass1);
+@$pass1=strtoupper($pass1);
+@$pass2=$_POST["pass2"];
+$pass2=rtrim ($pass2);
+$pass2=ltrim ($pass2);
+@$pass2=strtoupper($pass2);
+
+@$contra=strtoupper($contra);
+//echo"valor de  $s like '$usu' and ci like '$ci' and contra like '$contra'";
+  @$sw=0;
+  if(!empty($OK)){
+  if($pass2==$pass1){
+ 
+ $sqlc= mysql_query("select * from usuarios WHERE nombre like '$usu' and ci like '$ci' and contra like '$contra' ", $link);
+							$filasc = mysql_num_rows($sqlc);
+							if($filasc!=0)
+							{
+								while($datosc=mysql_fetch_array($sqlc))
+								{
+
+	if(mysql_query(" UPDATE usuarios SET contra='".$pass1."' where ci like '$ci' ",$link)){
+        $mensaje="Datos Guardados"; 
+		$ba="Su contraseña fue cambiada con exito. <br>
+		Recuerde guardar la misma en un modo seguro donde usted pueda recordarlo. <br>
+		Caso contrario solicite su baja en el departamento de Sistemas para que le asignen otra nueva y asi podra realizar nuevamente el cambio."; 
+		$im="01llave.png";
+ 	 }
+  
+  	ELSE{ 
+	$mensaje="Datos NO fueron Modificados"; 
+	$ba="Su contraseña NO FUE GRABADA. <br>
+	Es posible que la CONTRASEÑA antigua no es correcta porfavor vuelva 
+    e ingrese la contraseña correcta para reemplazarla por la nueva.<br>
+	En caso de que persista el error consulte a su administrador del sistema";
+	$im="02llave.png";
+ 	
+   }
+}}else{ $ba="La CONTRASEÑA ANTIGUA no es correcta porfavor vuelva 
+    e ingrese la contraseña correcta para reemplazarla por la nueva.<br>
+	En caso de que persista el error consulte a su administrador del sistema";
+	$im="03llave.png";}
+}else{ $ba="La CONTRASEÑA NUEVA no se replicado correctamente. Debe introducir la misma en las casillas
+que dice: 'Introduzca contraseña nueva y Repita la contraseña nueva '";
+	$im="03llave.png";}
+       ?>
+		  
+<CENTER>
+<br>
+  <table width="78%" height="202"  border="0" align="center" cellpadding="0" cellspacing="0"  class="table">
+    <tr bgcolor="#FFE67D" >
+      <td height="44" colspan="2" bgcolor="#FBE8DA" ><div align="center"><u class="Estilo25"><span class="Estilo153 Estilo241"><strong>INFORME DE PROCESO </strong></span></u></div></td>
+    </tr>
+    <tr bgcolor="#C4D2E2" class="texto_general" >
+      <td width="25%" height="156" valign="top" bgcolor="#F3F3F3" >
+      <p align="center" class="Estilo36 Estilo2"><br>
+        <img src="<?php echo "$im"; ?>" width="98" height="107"></p>
+      </td>
+      <td width="75%" valign="middle" bgcolor="#F3F3F3" class="texto_comun_negrilla" ><?php echo "$ba"; ?></td>
+    </tr>
+     
+  </table>
+</CENTER>
+  <?php
+  }
+  
+  
+  ?>
+  
+        
+                  </div>
+</body>
+</html>		
+ <SCRIPT>
+$('input[type="text"]').focus(function() {
+	$(this).addClass("focus");
+});
+
+$('input[type="text"]').blur(function() {
+	$(this).removeClass("focus");
+});
+
+$('input[type="file"]').blur(function() {
+	$(this).removeClass("focus");
+});
+
+$('input[type="select"]').blur(function() {
+	$(this).removeClass("focus");
+});
+
+</SCRIPT>
+
+
