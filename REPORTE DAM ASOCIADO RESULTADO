@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<?php    
+
+ set_time_limit (2000);
+ 
+ $cod_recin_usu = @$_POST['cod_recin_usu'];
+ $nom_recin_usu= @$_POST['nom_recin_usu'];
+ $mailadm = @$_POST['mailadm'];
+ $cobrado= @$_POST['cobrado'];  
+ $parte= @$_POST['parte'];  
+ $cif =@$_POST['cif'];  
+ $agencia = @$_POST['agencia']; 
+ $nitagencia = @$_POST['nitagencia']; 
+ $fecha1= @$_POST['fecha1']; 
+ $fecha2= @$_POST['fecha2']; 
+
+ $nombre_imp= @$_POST['nombre_imp']; 
+ $codigo= @$_POST['codigo']; 
+ $nit_imp= @$_POST['nit_imp']; 
+ $usu= @$_POST['usu']; 
+ 
+  $recinto= @$_POST['recinto']; 
+  $estados= @$_POST['estados']; 
+  $bd= @$_POST['bd'];
+  $tramitador= @$_POST['tramitador'];  
+  
+ include("conexion.php");
+ $link=conectarse();
+ 
+
+//echo "usssu $usu";
+
+?>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<title>Listado para Modificar</title>
+<link href="estilos.css" rel="stylesheet" type="text/css">
+<link href="botones.css" rel="stylesheet" type="text/css">
+<link href="../style.css" rel="stylesheet" type="text/css">
+
+
+<style type="text/css" media="print">
+.nover {display:none}
+
+</style>
+
+<style type="text/css">
+  .imagenNO {display:none;}
+  .imagen {display:block;}
+.Estilo156 {color: #666666}
+.Estilo159 {color: #333333}
+.Estilo162 {font-family: Arial, Helvetica, sans-serif}
+.Estilo164 {color: #E4E4E4}
+.Estilo153 {
+	color: #FF0000;
+	font-weight: bold;
+}
+.Estilo154 {color: #333333}
+.derecha {
+	text-align: left;
+}
+</style>
+
+
+<script language="Javascript">
+
+function imprimir(recolocar) {  
+
+for (x=0;x<document.images.length;x++){
+    if (recolocar)
+      document.images[x].className = "imagen";
+    else
+      document.images[x].style.visibility = "visible";
+  }
+  
+if (window.print)
+window.print()
+else
+alert("Para imprimir presione Crtl+P.");
+}
+
+function ventana(){
+javascript:window.open('04hoja_excel.php?cuerpo='+document.form4.cuerpoab.value+'','popup','width=680,height=600,scrollbars=YES')
+}
+			
+function mandar(form3, form2){   
+
+form4.submit();
+
+
+ }
+
+function controlClick(obj)
+{
+     trozos = obj.value.split ("*");
+	 var a1 =(trozos[0]);
+	 var a2 =(trozos[1]);
+	 
+	/*document.form1.correo.value=document.form1.correo.value+a1;*/
+	document.form4.t.value=document.form4.t.value+a2;
+}
+
+
+
+function seleccionar_todo(){
+   for (i=0;i<document.form1.elements.length;i++)
+   {
+      if(document.form1.elements[i].type == "checkbox")
+	  {
+	     document.form1.elements[i].checked=1;
+		 document.getElementById('f'+i).style.backgroundColor='#FFDD53';
+
+		 }
+	}
+	
+} 
+
+
+
+function enviar(){
+var inp="";
+var contando=0;
+var totalb=0;
+
+//alert(document.form4.chkbox1.length);
+document.form1.u.value="";
+document.form1.t.value="";
+for (i=0;i<document.form4.chkbox1.length;i++)
+   {
+      if(document.form4.chkbox1[i].type == "checkbox")
+	  {
+        if(document.form4.chkbox1[i].checked==1)
+		{
+     //alert(document.form4.chkbox1[i].value);
+	 trozos = document.form4.chkbox1[i].value.split("*");
+	 var a1 =(trozos[0]);
+	 var a2 =(trozos[1]);
+	 var a3 =(trozos[2]);
+	 contando=contando+1;
+	 var aux=a1;
+	
+	
+	var totalb = (parseFloat(totalb))+(parseFloat(a2));
+	document.form4.total.value=Math.sign(totalb) * Math.floor(Math.abs(totalb) + 0.5);
+	document.form1.total_suma.value=document.form4.total.value
+	document.form1.t.value=document.form1.t.value+a3+"_";
+	document.form1.u.value=document.form1.u.value+"@"+a1;
+
+	
+	
+    	  }else{if(document.form1.u.value==""){document.form4.total.value=document.form4.total2.value;}}
+		  
+		  
+		  
+		 }else{if(document.form1.u.value==""){document.form4.total.value=document.form4.total2.value;}}
+		 }
+//var valor=document.form1.u.value;
+//opener.document.getElementById('myemailtextbox').innerHTML= inp;	
+//opener.document.form1.total_ubic.value=contando;
+
+
+} 
+
+
+function enviar2(){
+var inp="";
+var contando=0;
+var totalb=0;
+//alert(document.form1.elements.length);
+document.form8.u.value="";
+document.form8.t.value="";
+var a ="";
+for (i=0;i<document.form4.chkbox2.length;i++)
+   {
+      if(document.form4.chkbox2[i].type == "checkbox")
+	  {
+        if(document.form4.chkbox2[i].checked==1)
+		{
+		
+	 cod_in = document.form4.chkbox2[i].value;
+	 contando=contando+1;
+	 document.form8.u.value=a+"@"+cod_in;
+	 a=document.form8.u.value;	
+    	  }
+		 }
+		 }
+document.form8.t.value=contando;
+} 
+
+
+
+
+
+
+function A(c,i)
+{
+ var b=i.substring(1, i.length);
+ if(document.form4.elements[b].type == "checkbox")
+	  {
+
+        if(document.form4.elements[b].checked==1)
+		{
+  document.getElementById(i).style.backgroundColor=c; 
+}else{
+   document.getElementById(i).style.backgroundColor='#999999';
+}
+}
+}
+   
+   function seleccion_recaudador(){
+	
+var cod = document.getElementById("a21b").value;
+trozos = cod.split ("*");
+	     var a1 =(trozos[0]);
+	     var a2 =(trozos[1]);
+		 a1 = a1.replace(/\s/g," ");
+		 a2 = a2.replace(/\s/g," ");
+		 a1 = a1.trim();
+		 a2 = a2.trim();
+		 document.form1.reca21.value=a1;
+		 document.form1.reca22.value=a2;
+}
+   
+ function por_cobrar(){ 
+
+	if (document.form1.cobrado.value == 'NO') { document.form1.tipo_pago.value= "POR COBRAR"; 
+	document.form1.fecha_efec.value= ""; }
+	
+				
+}
+    </script>
+
+	
+</head>
+<body>
+
+
+<?php
+
+
+$anio = @$_POST['anio']; 
+$unidad = @$_POST['unidad']; 
+$unidad2 = @$_POST['unidad2']; 
+$tranmitador = @$_POST['tramitador']; 
+$base2 = @$_POST['base2']; 
+$contador = @$_POST['contador']; 
+$importador = @$_POST['importador']; 
+
+@$d0=$_POST["d0"];
+@$d1=$_POST["d1"];
+@$d2=$_POST["d2"];
+@$d3=$_POST["d3"];
+@$d4=$_POST["d4"];
+@$d5=$_POST["d5"];
+@$d24=$_POST["d24"];
+@$d7=$_POST["d7"];
+@$sw=$_POST["sw"];
+@$cod = @$_POST['cod']; 
+@$asociado = @$_POST['asociado']; 
+@$base = @$_POST['base'];
+@$gestion = @$_POST['gestion']; 
+@$codzona = @$_POST['codzona']; 
+
+@$ciudad_r=$_POST["ciudad_r"];
+@$hora_i=date("H:i:s");
+$sw=0;			
+@$filas=0; 
+?>
+
+  
+<?php
+
+
+@$suma=0;
+@$r2=0;
+@$cuerpoa=" ";
+@$cuerpob=" ";
+
+@$cc=0;
+@$aux=0;
+@$control=0;
+
+
+?>
+
+
+   <div id='ocult1' style='display:block'>
+  <div align="center">
+<table width="20%"  border="0" cellspacing="2" class="info">
+  <tr>
+    <td><div align="center"><span class="Estilo153">NOTA: </span><span class="Estilo154">Este proceso puede tardar unos minutos, espere porfavor </span></div></td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="imagenes/espere.gif" width="128" height="15"></div></td>
+  </tr>
+</table>
+</div>
+  </div>
+
+<div id='progress' style='display:block'></div>
+
+
+<form action="02form_guardarmod.php" name="form1"  method="post" id="form1">
+<input  name="liq" type="hidden" class="input_c"  id="liq"  value="<?php echo date("m"); ?>" size="4" />
+<input name="u" type="hidden" id="u" size="100" />
+<input name="t" type="hidden" id="t" size="100" />
+<input name="usu" type="hidden" id="usu" size="100" value="<?php echo $usu;?>" />
+<input name="anio" type="hidden" id="anio" size="10" value="<?php echo date("Y"); ?>" />
+<input name="total_suma" type="hidden"  id="total_suma" value="<?php echo $suma;?>" size="5" />
+</form>
+
+<form action="03form_guardarmod_abandonos.php" method="post" name="form8" id="form8">
+<input  name="liq" type="hidden" class="input_c"  id="liq"  value="<?php echo date("m"); ?>" size="4" />
+<input name="u" type="hidden" id="u" size="100" />
+<input name="t" type="hidden" id="t" size="10" />
+<input name="usu" type="hidden" id="usu" size="100" value="<?php echo $usu;?>" />
+<input name="bd" type="hidden" id="bd" size="10" value="<?php echo $bd; ?>" />
+<input name="total_suma" type="hidden"  id="total_suma" value="<?php echo $suma;?>" size="5" />
+</form>
+
+
+<form name="form4"  method="post" action="05hoja_excel.php"  target="_blank">
+<span class="letra_menu"> <span class="derecha">
+<u>REPORTE GENERAL DE REGISTROS DAM ASOCIADOS A UNA DIM</u></span></span>
+<table width="99%"  border="0" align="center" cellpadding="0" cellspacing="0"  class="tabla_normal">
+  <tr bordercolor="#990000" bgcolor="#990000" class="tabla_normal texto_general">
+    <td width="5%" height="22" align="center" bgcolor="#990000" class="white Estilo164">N&deg;.</td>
+    <td width="9%" align="center" bgcolor="#990000" class="white Estilo164">FECHA DE REG.</td>
+    <td width="11%" bgcolor="#990000" class="white Estilo164">CODIGO INT, DAM</td>
+    <td width="11%" bgcolor="#990000" class="white Estilo164">CODIGO INT DIM</td>
+    <td width="10%" bgcolor="#990000" class="white Estilo164">ADUANA</td>
+    <td width="7%" bgcolor="#990000" class="white Estilo164">CIUDAD</td>
+    <td width="14%" bgcolor="#990000" class="white Estilo164">IMPORTADOR,</td>
+    <td width="12%" bgcolor="#990000" class="white Estilo164">USUARIO REG,</td>
+    <td width="14%" align="center" bgcolor="#990000" class="white Estilo164">MERCADERIA </td>
+    <td width="7%" align="center" bgcolor="#990000" class="white Estilo164">EST.</td>
+    </tr>
+  
+  <?php 
+
+@$anio=date('Y');
+@list( $month, $day, $year) = @split( '/', $fecha1 );
+ $year=ltrim ($year);
+ $month=ltrim ($month);
+ $day=ltrim ($day); 
+ $year=rtrim ($year);
+ $month=rtrim ($month);
+ $day=rtrim ($day);
+ $fecha1="$year-$day-$month";
+@list( $month, $day, $year) = @split( '/', $fecha2 );
+ $year=ltrim ($year);
+ $month=ltrim ($month);
+ $day=ltrim ($day); 
+ $year=rtrim ($year);
+ $month=rtrim ($month);
+ $day=rtrim ($day);
+ $fecha2="$year-$day-$month";
+
+if(!empty($tramitador)){$tramitador="and usuario like '%$tramitador%'";} else{$tramitador='';}
+if(!empty($recinto)){$recinto="and cod_aduana like '%$recinto%'";} else{$recinto='';}
+if(!empty($estados)){$estados="and estado_reg like '%$estados%'";} else{$estados='';}
+if(!empty($ciudad_r)){$ciudad_r="and ciudad_recinto like '%$ciudad_r%'";} else{$ciudad_r='';}
+if(!empty($importador)){$importador="and nit_imp like '%$importador%'";} else{$importador='';}
+
+if($asociado=="NO"){$asociado="and reg_dim like 'INA'";} else{
+	if($asociado=="SI"){$asociado="and reg_dim like 'ACT'";} else{$asociado='';}}
+
+
+
+$consulta="SELECT * FROM $bd where fecha_reg between '$fecha1' and  '$fecha2'  $tramitador 
+$recinto $estados $ciudad_r $importador $asociado ORDER BY fecha_reg";
+$resp= mysql_query($consulta, $link);
+//echo "$consulta";
+@$contador=0;
+@$cont=0;
+@$conta=0;
+@$conto=0;
+
+
+@$suma=0;
+$filas=mysql_num_rows($resp);
+if($filas!=0)
+{
+while($datos=mysql_fetch_array($resp))
+{
+//set_time_limit(1000);
+
+$d0=@$datos[0]; 
+$d1=@$datos[1]; 
+$d2=@$datos[2]; 
+$d3=@$datos[3]; 
+$d4=@$datos[4];
+$d5=@$datos[5]; 
+$d6=@$datos[6]; 
+$d7=@$datos[7]; 
+$d8=@$datos[8]; 
+$d9=@$datos[9];
+$d10=@$datos[10];
+$d11=@$datos[11];
+$d12=@$datos[12];
+$d13=@$datos[13];
+$d14=@$datos[14];
+$d15=@$datos[15];
+$d16=@$datos[16]; 
+//$d10=@$datos[10]; 
+
+@$cod_dim="";
+
+if ($d16=="ACT"){
+$consultab="SELECT * FROM registro_dim where num_dam like '$d1' ORDER BY fecha_reg";
+@$respb= mysql_query($consultab, $link);
+$filasb=mysql_num_rows($respb);
+if($filasb!=0)
+{
+while($datosb=mysql_fetch_array($respb))
+{
+//set_time_limit(1000);
+
+$d0=@$datos[0]; 
+$d1=@$datos[1];
+@$cod_dim=$d1."<br>".$cod_dim;
+}}
+	
+	}else{$cod_dim="Sin DIM";}
+
+$suma=$suma; 
+$sw_pdf=1;
+$sw=1;
+$cc= $cc+1;
+$conto=$conto+1;
+$conta=$conta+1;
+
+if($d4=='NO'){$colorcobrado="#F00";}ELSE{$colorcobrado="#FFFFF";}
+
+		if($cc%2==0){$color="#DBDBDB";}ELSE{$color="#FFFFF";}
+		if($d2=="ANU"){$color="#FFFFC4";}
+	
+$control=$control+1;
+//set_time_limit(60);
+
+
+  
+ ?>
+  
+  
+  <tr bgcolor="<?php echo "$color";?>" >
+    <td align="center"> <span class="texto_general"><?php echo"$conta"; ?> </span></td>
+    <td align="center" class="texto_general" ><?php echo"$d14"; ?></td>
+    <td class="texto_general" ><?php echo"$d1"; ?></td>
+    <td align="left"><span class="texto_general"><?php echo"$cod_dim"; ?></span></td>
+    <td align="left"> <span class="texto_general"><?php echo"$d6 $d7"; ?> </span></td>
+    <td class="texto_general" ><?php echo"$d15"; ?></td>
+    <td class="texto_general" ><?php echo"$d9 $d8"; ?></td>
+    <td class="texto_general" ><?php echo"$d2"; ?></td>
+    <td align="left" valign="middle" class="texto_general"><?php echo"$d10"; ?></td>
+    <td align="left" valign="middle" class="texto_general"><?php echo"$d13"; ?></td>
+    </tr>
+  
+  <?php 
+   }}
+  ?> 
+ 
+  <?php
+// echo "<div style='float:left;margin:1px 0px 0px 1px;width:1px;height:2px;background:#CCCCCC;color:#666666;'>  </div>";
+    flush();
+    ob_flush();
+	
+
+	?>
+    
+    <tr class="Estilo25">
+      <td height="19" align="center">&nbsp;</td>
+      <td align="center" >&nbsp;</td>
+      <td >&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td >&nbsp;</td>
+      <td align="right" >&nbsp;</td>
+      <td align="right" >&nbsp;</td>
+      <td align="right" valign="middle">&nbsp;</td>
+      <td align="right" valign="middle">&nbsp;</td>
+    </tr>
+  </table>
+	<?php echo "</div>";
+echo "<script>document.getElementById('progress').style.display = 'block'
+document.getElementById('ocult1').style.display='none'; </script>";
+if($filas==0)
+{ set_time_limit(60);
+?>
+<center>
+<table width="59%"  border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="94%" height="55" class="error"><p>No se ha encontrado salidas en la fecha ingresada. </p>
+      </td>
+  </tr>
+</table>
+</center>
+<?php } 
+
+$cuerpob=$cuerpoa.$cuerpob."</table>";
+?>
+
+
+<input name="cuerpoab" type="hidden" value="<?php echo "$cuerpob"; ?>">
+<input name="nit" type="hidden" value="<?php  ?>">
+<input name="fecha" type="hidden" value="<?php echo date("d/m/Y"); ?>">
+<input name="tiporepo" type="hidden" value="SALIDAS">
+ 
+  <input name="u" type="hidden" id="u" size="80" >
+  <input name="t" type="hidden" id="t" size="80" >
+  
+<div id='ocul' style='display:none'>
+ <input name="chkbox1" type="checkbox"  value="<?php echo $d0."*".$d17."*".$d4;?>" id="f<?php echo"$cont";?>" onClick="enviar();">
+ <input name="chkbox2" type="checkbox"  value="<?php echo $d0."*".$d17."*".$d4;?>" id="p<?php echo"$conto";?>" onClick="enviar2();">
+</div>  
+
+<script language="javascript">
+	var sorter=new table.sorter("sorter");
+	sorter.init("tabla_clientes",1);
+</script>
+</form>
+
+
+
+
+
+</body>
+
+</html>
