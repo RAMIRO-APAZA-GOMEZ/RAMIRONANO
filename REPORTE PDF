@@ -1,0 +1,448 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<?php    
+
+
+ 
+set_time_limit (2000);
+ $cod_recin_usu = @$_POST['cod_recin_usu'];
+ $nom_recin_usu= @$_POST['nom_recin_usu'];
+ $variable_rec = @$_POST['variable_rec'];
+ $cobrado= @$_POST['cobrado'];  
+ $parte= @$_POST['parte'];  
+ $cif =@$_POST['cif'];  
+ $agencia = @$_POST['agencia']; 
+$nitagencia = @$_POST['nitagencia']; 
+ $fecha1= @$_POST['fecha1']; 
+ $fecha2= @$_POST['fecha2']; 
+
+$nombre_imp= @$_POST['nombre_imp']; 
+ $codigo= @$_POST['codigo']; 
+ $nit_imp= @$_POST['nit_imp']; 
+ 
+  $recinto= @$_POST['recinto']; 
+  $estados= @$_POST['estados']; 
+  $fpago= @$_POST['fpago'];
+  $dui= @$_POST['dui']; 
+  $factura= @$_POST['factura'];
+
+
+ include("conexion.php");
+ $link=conectarse();
+ 
+
+//echo "nit $nit recinto $recinto";
+
+?>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<title>Reporte Diario</title>
+<link href="estilo_imprimir.css" rel="stylesheet" media="print">
+<link href="estilo_imprimir.css" rel="stylesheet" type="text/css" >
+
+<style type="text/css" media="print">
+.nover {display:none}
+
+</style>
+
+<script language="Javascript">
+
+  function imprSelec(muestra)
+  {
+  var ficha = document.getElementById(muestra);
+  var ventimp = window.open(' ', '_blank');
+  ventimp.document.write( ficha.innerHTML );
+  ventimp.document.close();
+  var css = ventimp.document.createElement("link");
+css.setAttribute("href", "estilo_imprimir.css");
+css.setAttribute("rel", "stylesheet");
+css.setAttribute("type", "text/css");
+ventimp.document.head.appendChild(css);
+  ventimp.print( );
+  ventimp.close();
+  } 
+
+
+</script> 
+<?PHP /************************************** EN TIPO.JS ESTA LA CAJA DE BUSQUEDA INMEDIATA";*/
+function obtenerFechaEnLetra($fecha){
+    $dia= conocerDiaSemanaFecha($fecha);
+    $num = date("j", strtotime($fecha));
+    $anno = date("Y", strtotime($fecha));
+    $mes = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+    $mes = $mes[(date('m', strtotime($fecha))*1)-1];
+    return $num.' de '.$mes.' del '.$anno;
+}
+ 
+function conocerDiaSemanaFecha($fecha) {
+    $dias = array('Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado');
+    $dia = $dias[date('w', strtotime($fecha))];
+    return $dia;
+}
+?>
+
+</head>
+
+<link href= "../style.css" rel="stylesheet" type="text/css">
+
+<body>
+
+
+<?php
+
+
+$anio = @$_POST['anio']; 
+$unidad = @$_POST['unidad']; 
+$unidad2 = @$_POST['unidad2']; 
+$nitbuscar = @$_POST['nitbuscar']; 
+$base2 = @$_POST['base2']; 
+$contador = @$_POST['contador']; 
+
+@$d0=$_POST["d0"];
+@$d1=$_POST["d1"];
+@$d2=$_POST["d2"];
+@$d3=$_POST["d3"];
+@$d4=$_POST["d4"];
+@$d5=$_POST["d5"];
+@$d24=$_POST["d24"];
+@$d7=$_POST["d7"];
+@$sw=$_POST["sw"];
+@$cod = @$_POST['cod']; 
+@$base = @$_POST['base'];
+@$gestion = @$_POST['gestion']; 
+@$codzona = @$_POST['codzona']; 
+@$hora_i=date("H:i:s");
+$sw=0;			
+@$filas=0; 
+?>
+
+  
+<?php
+@$anio=date('Y');
+$fecha1_ref=str_replace("/", "-", $fecha1);
+$fecha2_ref=str_replace("/", "-", $fecha2);
+//echo "'$fecha1_ref' and  '$fecha2_ref'<br>";
+//echo "'$fecha1' and  '$fecha2'";
+if($fecha1_ref==$fecha2_ref){ $ref_fecha=obtenerFechaEnLetra($fecha1_ref); }
+else{$ref_fecha=obtenerFechaEnLetra($fecha1_ref)." al ".obtenerFechaEnLetra($fecha2_ref);}
+
+
+@$suma=0;
+@$r2=0;
+@$cuerpoa=" ";
+@$cuerpob=" ";
+
+@$cc=0;
+@$aux=0;
+@$control=0;
+
+
+?>
+
+
+
+<div id="muestra">
+
+<table width="90%"  border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="11%" height="63" align="right"><img src="imagenes/logo_cni.jpg" width="133" height="136" /></td>
+    <td width="89%" align="center"><table width="98%" border="0" cellpadding="0" cellspacing="2">
+      <tr>
+        <td width="91%" height="32" align="center">&nbsp;</td>
+        <td width="9%" align="right" class="texto_titulo_imprimir">OF<?php echo $cod_recin_usu; ?></td>
+      </tr>
+      <tr>
+        <td height="32" align="center"><span class="texto_titulo_imprimir"><strong>INFORME DIARIO DE RECAUDACIONES</strong></span></td>
+        <td align="center">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="20" align="center"><span class="texto_titulo_imprimir"><strong>
+        <?php 
+		$sqlc= mysql_query("select * from usuarios_ing where cod_recinto like '$cod_recin_usu' and estado like 'ACT' order by nro ", $link);
+							$filasc = mysql_num_rows($sqlc);
+							if($filasc!=0)
+							{
+								while($datosc=mysql_fetch_array($sqlc))
+								{
+									@$codig=@$datosc[8];
+									@$nom=@$datosc[9];
+								 
+								 }echo $codig." ".$nom;
+								}else{echo "Facturación General";}?>
+        </strong></span></td>
+        <td align="center">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="24" align="center"><strong><span class="texto_subtitulo_imprimir"> <?php echo $ref_fecha;?> </span></strong></td>
+        <td align="center">&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+
+
+<BR>
+<table width="90%"  border="1" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" class="tabla_imprimir" id="demo_table">
+
+  <tr class=" tabla_imprimir texto_subtitulo_imprimir">
+    <td width="3%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">NRO</span></td>
+    <td width="3%" height="19" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">
+    FECHA FACTURA      </span></td>
+    <td width="5%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">NRO. FACTURA</span></td>
+    <td width="10%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">
+    DUI </span></td>
+    <td width="17%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">
+    IMPORTADOR      </span></td>
+    <td width="18%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">AGENCIA DESPACHANTE </span></td>
+    <td width="16%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">TRAMITADOR </span></td>
+    <td width="7%" align="center" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">
+    3x MIL</span></td> 
+    <td width="11%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">ESTADO </span></td>
+    <td width="13%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">FORMA DE PAGO</span></td>
+    <td width="13%" align="left" bgcolor="#CCCCCC" ><span class="texto_comun_imprimir">OBSERVACIONES</span></td> 
+    </tr>
+ <tbody>
+  <?php 
+
+@list( $month, $day, $year) = @split( '/', $fecha1 );
+ $year=ltrim ($year);
+ $month=ltrim ($month);
+ $day=ltrim ($day); 
+ $year=rtrim ($year);
+ $month=rtrim ($month);
+ $day=rtrim ($day);
+ $fecha1="$year-$day-$month";
+@list( $month, $day, $year) = @split( '/', $fecha2 );
+ $year=ltrim ($year);
+ $month=ltrim ($month);
+ $day=ltrim ($day); 
+ $year=rtrim ($year);
+ $month=rtrim ($month);
+ $day=rtrim ($day);
+ $fecha2="$year-$day-$month";
+ 
+//if(!empty($nombre_imp)){$nombre_imp="and  like '%$nombre_imp%'";} else{$nombre_imp='';}
+//if(!empty($nit_imp)){$nit_imp="and impor_nit like '%$nit_imp%'";} else{$nit_imp='';}
+if(!empty($nit_imp)){$nit_imp="and impor_des like '%$nit_imp%'";} else{$nit_imp='';}
+if(!empty($cobrado)){$cobrado="and cobrado like '%$cobrado%'";} else{$cobrado='';}
+if(!empty($agencia)){$agencia="and agen_des like '%$agencia%'";} else{$agencia='';}
+
+/*if(!empty($nit_imp)){ //echo"** $nitagencia";
+	$modulo = explode("*",$nit_imp);
+	$modulo1=$modulo[0];
+	$modulo2=$modulo[1];
+	$nitagencia="and impor_nit like '$modulo1' and impor_des like '$modulo2'";} else{$nitagencia='';}
+	*/
+	
+if(!empty($nitagencia)){ //echo"** $nitagencia";
+@$buscar = "|"; 
+$resultado = strpos($nitagencia, $buscar);
+if($resultado !== FALSE){
+	$modulo = explode("|",$nitagencia);
+	
+	$modulo1=$modulo[0];
+	$modulo2=$modulo[1];
+	$modulo3=$modulo[2];
+	
+	$modulo1=trim($modulo1); $modulo2=trim($modulo2); $modulo3=trim($modulo3);
+	
+	if(!empty($modulo2)){$modulo2=" and agen_cod like '%$modulo2%' ";}else{$modulo2=" and agen_cod like '$modulo2' ";}
+	if(!empty($modulo3)){$modulo3=" and agen_nit like '%$modulo3%' ";}
+	$nitagencia=$modulo2.$modulo3;
+	
+}else{
+		if(!empty($nitagencia))
+		{$nitagencia="and (agen_des like '%$nitagencia%' or agen_nit like '%$nitagencia%' or agen_cod like '%$nitagencia%')";}
+		else{$nitagencia='';}
+	}
+}else{$nitagencia='';}
+
+if(!empty($recinto)){$recinto="and distrito_cod like '%$recinto%'";} else{$recinto='';}
+if(!empty($estados)){$estados="and estado like '%$estados%'";} else{$estados='';}
+if(!empty($fpago)){$fpago="and forma_pago like '%$fpago%'";} else{$fpago='';}
+if(!empty($dui)){$dui="and poliza like '%$dui%'";} else{$dui='';}
+if(!empty($factura)){$factura="and nro_fact like '%$factura%'";} else{$factura='';}
+//if(!empty($tramitador)){if($tramitador=="SIN"){$tramitador="and agen_cod like ''";}else{$tramitador="and agen_cod like '%$tramitador%'";}} else{$tramitador='';}
+if(!empty($cod_recin_usu)){$cod_recin_usu="and oficina like '%$cod_recin_usu%'";} else{$cod_recin_usu='';}
+
+
+$valor_sum_f=0;
+$valor_sum_c=0;
+$color="#FFF";
+$consulta="SELECT * FROM registro where fecha_fact between '$fecha1' and  '$fecha2'  $nombre_imp  $nit_imp $cobrado $nitagencia $agencia $cod_recin_usu
+$recinto $estados $fpago $dui $factura ORDER BY fecha_fact,nro_fact";
+//echo"$consulta";
+$resp= mysql_query($consulta, $link);
+@$contador=0;
+@$cont=0;
+@$suma=0;
+$filas=mysql_num_rows($resp);
+if($filas!=0)
+{
+while($datos=mysql_fetch_array($resp))
+{
+//set_time_limit(1000);
+
+$d0=@$datos[0]; 
+$d1=@$datos[1]; 
+$d2=@$datos[2]; 
+$d3=@$datos[3]; 
+$d4=@$datos[4];
+$d5=@$datos[5]; 
+$d6=@$datos[6]; 
+$d7=@$datos[7]; 
+$d8=@$datos[8]; 
+$d9=@$datos[9];
+$d10=@$datos[10];
+$d11=@$datos[11];
+$d12=@$datos[12];
+$d13=@$datos[13];
+$d14=@$datos[14];
+$d15=@$datos[15];
+$d16=@$datos[16];
+$d17=@$datos[17];
+$d18=@$datos[18]; 
+$d19=@$datos[19];
+$d20=@$datos[20];
+$d21=@$datos[21];
+$d22=@$datos[22];
+$d23=@$datos[23];
+$d24=@$datos[24];
+$d25=@$datos[25];
+$d26=@$datos[26];
+$d27=@$datos[27];
+$d28=@$datos[28];
+$d36=@$datos[36];
+//$d9=@$datos[5]; 
+//$d10=@$datos[10]; 
+
+if($d28=="ANU"){
+ $d17=0;
+	$d4="";
+	$d8="";
+	$d9="";
+	$d11="";
+	$d12="";
+	$d10="";
+	$d13="";
+	$d34="";
+	$d35="";
+	$d14="";
+	$d18=0;
+	$texto_cob="ANULADO";
+	$color="#FFFF99";
+	}
+
+
+$suma=$suma+$d17; 
+
+$sw=1;
+$cc= $cc+1;
+$cont=$cont+1;
+
+$control=$control+1;
+//set_time_limit(60);
+ if($d14=="SI"){$valor_sum_c=$valor_sum_c+$d17; $texto_cob="CANCELADO";	$color="#FFFFFF";}
+ if($d14=="NO"){$valor_sum_f=$valor_sum_f+$d17; $texto_cob="X COBRAR";	$d13="";	$color="#FFFFFF";}
+
+  $d20 = str_replace('"',".", $d20);
+    $d21 = str_replace('"',".", $d21);
+	  $d18 = str_replace('"',".", $d18);
+	    $d22= str_replace('"',".", $d22);
+  $d24 = str_replace('"', ".", $d24);
+  $d5 = str_replace('"', ".", $d5);
+  $d2 = str_replace('"',".", $d2);
+  $d4 = str_replace('"', ".", $d4);
+  $d20 = str_replace('"',".", $d20);
+  $d38 = str_replace('"',".", $d38);
+   $d20 = str_replace("'",".", $d20);
+ 
+  ?>
+  
+  
+  <tr bgcolor="<?php echo"$color"; ?>" class="tabla_imprimir">
+    <td align="left" ><span class="texto_comun_imprimir"><?php echo"$cont"; ?></span></td>
+    <td align="left" ><span class="texto_comun_imprimir"><?php echo"$d26"; ?></span></td>
+    <td align="left"><span class="texto_comun_imprimir"><?php echo"$d19"; ?></span></td>
+    <td align="left"> <span class="texto_comun_imprimir"><?php echo"$d4"; ?> </span></td>
+    <td align="left" ><span class="texto_comun_imprimir"><?php echo"$d8"; ?></span></td>
+    <td align="left"><span class="texto_comun_imprimir"><?php echo"$d11"; ?></span></td>
+    <td align="left"><span class="texto_comun_imprimir"><?php echo"$d10"; ?></span></td>
+    <td align="right" valign="middle">
+      
+      <span class="texto_comun_imprimir"><?php echo number_format($d17, 2);?>    </span></td>
+    <td align="left" valign="middle"> 
+	  <span class="texto_comun_imprimir"><?php echo $texto_cob; ?></span></td>
+    <td align="left" valign="middle"><span class="texto_comun_imprimir"><?php echo "$d13 $d34 $d35";?></span></td>
+    <?php
+	/*
+    <td align="left" valign="middle">
+      <span class="texto_general_negrilla"><font color=<?php echo $colorcobrado;?>>
+        <?php echo $d14;?></font>
+      &nbsp;
+      <img src="boton/<?php echo $d14;?>.gif" width="16" height="16" /></span></td>
+      */?>
+    <td align="left" valign="middle"><span class="texto_comun_imprimir"><?php echo "$d36";?></span></td>
+    </tr>
+  
+  <?php 
+   }}
+  ?> 
+ 
+  <?php
+// echo "<div style='float:left;margin:1px 0px 0px 1px;width:1px;height:2px;background:#CCCCCC;color:#666666;'>  </div>";
+    flush();
+    ob_flush();
+	
+
+	?>
+   
+    </tbody>
+</table>
+<BR>
+     <table width="59%"  border="1" align="center" cellpadding="0" cellspacing="0" class="tabla_imprimir">
+  <tr class="texto_comun_imprimir">
+    <td width="47%" height="27" >TOTAL RECAUDACION DIARIA.      </td>
+    <td width="47%" align="right" ><?php echo number_format($suma, 2);?></td>
+  </tr>
+  </table>
+  <p></p>
+  <table width="59%" height="54"  border="1" align="center" cellpadding="0" cellspacing="0" class="tabla_imprimir">
+  <tr>
+    <td width="47%" height="27" ><span class="texto_comun_imprimir">FACTURAS CANCELADAS</span></td>
+    <td width="47%" align="right" ><span class="texto_comun_imprimir"><?php echo number_format($valor_sum_c, 2); ?></span></td>
+  </tr>
+  <tr>
+    <td height="27" ><span class="texto_comun_imprimir">FACTURAS POR COBRAR</span></td>
+    <td align="right" ><span class="texto_comun_imprimir"><?php echo number_format($valor_sum_f, 2); ?></span></td>
+  </tr>
+  </table>
+</div>
+
+  <?php //echo "</div>";
+echo "<script>document.getElementById('progress').style.display = 'block'
+document.getElementById('ocult1').style.display='none'; </script>";
+if($filas==0)
+{ set_time_limit(60);
+?>
+<center>
+<table width="59%"  border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="94%" height="55" class="error"><p>No se ha encontrado salidas en la fecha ingresada. </p>
+      </td>
+  </tr>
+</table>
+</center>
+<?php } 
+
+
+?>
+
+
+
+</body>
+
+</html>
