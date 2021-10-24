@@ -1,0 +1,265 @@
+<?php    
+
+include("conexion.php");
+$link=conectarse();
+ 
+$usu = @$_POST['usu'];
+$fecha= @$_POST['fecha']; 
+$hora = @$_POST['hora'];
+@$ciudad_reci=$_POST["ciudad_reci"];
+@$interno1=$_POST["interno1"];
+@$fob=$_POST["fob"];
+@$flete=$_POST["flete"];
+@$seguro=$_POST["seguro"];
+@$flete2=$_POST["flete2"];
+@$puerto=$_POST["puerto"];
+@$gastos=$_POST["gastos"];
+@$tipo_cambio=$_POST["tipo_cambio"];
+@$ga=$_POST["ga"];
+@$iva=$_POST["iva"];
+@$alm=$_POST["alm"];
+@$suma=$_POST["suma"];
+@$ga_b=$_POST["ga_b"];
+@$iva_b=$_POST["iva_b"];
+@$comercio=$_POST["comercio"];
+
+@$porcentaje_b=$_POST["porcentaje_b"];
+
+$ciudad_reci=trim($ciudad_reci);
+$interno1=trim($interno1);
+
+
+@$interno=$_POST["interno"];
+@$consignatario=$_POST["consignatario"];
+@$nit=$_POST["nit"];
+@$factura=$_POST["factura"];
+@$mercaderia=$_POST["mercaderia"];
+@$peso_bruto=$_POST["peso_bruto"];
+@$peso_neto=$_POST["peso_neto"];
+@$cantidad=$_POST["cantidad"];
+@$erogaciones=$_POST["erogaciones"];
+@$usu=$_POST["usu"];
+
+
+?>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<title>Informe Diario</title>
+<link href= "style.css" rel="stylesheet" type="text/css">
+<link href="estilo_imprimir.css" rel="stylesheet" media="print">
+<link href="estilo_imprimir.css" rel="stylesheet" type="text/css" >
+
+
+<style type="text/css" media="print">
+.nover {display:none}
+</style>
+
+<script language="Javascript">
+
+  function imprSelec(muestra)
+  {
+  var ficha = document.getElementById(muestra);
+  var ventimp = window.open(' ', '_blank');
+  ventimp.document.write( ficha.innerHTML );
+  ventimp.document.close();
+  var css = ventimp.document.createElement("link");
+css.setAttribute("href", "estilos.css");
+css.setAttribute("rel", "stylesheet");
+css.setAttribute("type", "text/css");
+ventimp.document.head.appendChild(css);
+  ventimp.print( );
+  ventimp.close();
+  } 
+
+
+</script> 
+</head>
+<body>
+ <?php 
+
+@$cif_frontera=$fob+$flete+$seguro+$flete2+$puerto+$gastos;   
+//echo "valor de cif $cif_frontera";
+
+?>
+
+ <table width="92%" border="0" align="center" cellspacing="0" class="table_contenido_marco">
+   <tr>
+     <th align="right" scope="col"><a href="javascript:imprSelec('muestra')"><img src="boton/imprimir.jpg" width="150" height="34" /></a></th>
+   </tr>
+ </table>
+
+ <div id="muestra">
+<table width="92%"  border="0" align="center" cellpadding="0" cellspacing="0" class="table">
+      <tr valign="middle" >
+        <td height="63" colspan="2" bgcolor="#FFFFFF" class="texto_comun_negrilla"><img src="boton/logo.png" width="150" height="56"></td>
+  </tr>
+      <tr valign="middle" >
+        <td height="40" bgcolor="#FFFFFF" class="letra_titulo_rojo"><span class="texto_titulo_imprimir">FORMULARIO DE PRELIQUIDACION</span></td>
+        <td height="40" align="right" bgcolor="#FFFFFF" class="letra_titulo_rojo"><span class="texto_subtitulo_imprimir"> USUARIO: <?php echo "$usu";?>| FECHA:<?php echo "$fecha $hora";?></span></td>
+      </tr>
+      <tr valign="middle" >
+        <td height="118" bgcolor="#FFF8EC"><table width="100%" border="0" cellspacing="0" class="texto_general">
+          <tr>
+            <th width="49%" align="left" class="texto_subtitulo_imprimir" scope="col">INTERNO:</th>
+            <th width="51%" align="left" class="texto_comun" scope="col"><?php echo "$interno";?></th>
+          </tr>
+          <tr>
+            <td align="left" class="texto_subtitulo_imprimir">CONSIGNATARIO:</td>
+            <td align="left" class="texto_comun"><?php echo $consignatario;?>
+            
+            </td>
+          </tr>
+          <tr>
+            <td align="left" class="texto_subtitulo_imprimir">NIT:</td>
+            <td align="left" class="texto_comun"><?php echo $nit;?></td>
+          </tr>
+          <tr>
+            <td align="left" class="texto_subtitulo_imprimir">N&deg; FACTURA:</td>
+            <td align="left" class="texto_comun"><?php echo $factura;?></td>
+          </tr>
+          <tr>
+            <td align="left" class="texto_subtitulo_imprimir">TIPO DE CAMBIO:</td>
+            <td align="left" class="texto_comun"><?php echo $tipo_cambio;?></td>
+          </tr>
+        </table></td>
+        <td height="118" bgcolor="#FFF8EC">
+        <table width="100%" border="0" cellspacing="0" class="texto_general" >
+          <tr>
+            <th width="35%" height="23" scope="col">&nbsp;</th>
+            <th width="65%" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <td class="texto_subtitulo_imprimir"><span class="texto_comun_negrilla">MERCADERIA:</span></td>
+            <td class="texto_comun"><?php echo $mercaderia;?></td>
+          </tr>
+          <tr>
+            <td class="texto_subtitulo_imprimir"><span class="texto_comun_negrilla">PESO NETO:</span></td>
+            <td class="texto_comun"><?php echo $peso_neto;?></td>
+          </tr>
+          <tr>
+            <td class="texto_subtitulo_imprimir"><span class="texto_comun_negrilla">PESO BRUTO:</span></td>
+            <td class="texto_comun"><?php echo $peso_bruto;?></td>
+          </tr>
+          <tr>
+            <td class="texto_subtitulo_imprimir"><span class="texto_comun_negrilla">CANTIDAD:</span></td>
+            <td class="texto_comun"><?php echo $cantidad;?></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr valign="top">
+        <td height="25" valign="middle" bgcolor="#ACE3C8" class="texto_comun_negrilla">CALCULOS REQUERIDOS</td>
+        <td bgcolor="#ACE3C8">&nbsp;</td>
+  </tr>
+      <tr valign="top">
+        <td width="526" height="152"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="2" class="texto_general" style="text-transform: uppercase;">
+	    <tr>
+	    <td width="24%"><span class="texto_comun">FOB</span></td>
+	    <td width="25%"><span class="texto_comun"><?php echo number_format($fob, 2); ?></span></td>
+	    </tr>
+	  <tr>
+	    <td><span class="texto_comun">FLETE</span></td>
+	    <td><span class="texto_comun"><?php echo number_format($flete, 2);?></span></td>
+	    </tr>
+	  <tr>
+	    <td><span class="texto_comun">SEGURO (POLIZA) <?php echo"$porcentaje_b"; ?>%</span></td>
+	    <td><span class="texto_comun"><?php echo"$seguro"; ?></span></td>
+	    </tr>
+	  <tr>
+	    <td><span class="texto_comun">FLETE II</span></td>
+	    <td><span class="texto_comun"><?php echo number_format($flete2, 2); ?></span></td>
+	    </tr>
+	  <tr>
+	    <td><span class="texto_comun">GASTOS PUERTO ASPB</span></td>
+	    <td><span class="texto_comun"><?php echo"$puerto"; ?></span></td>
+	    </tr>
+	  <tr>
+	    <td><span class="texto_comun">OTROS GATOS</span></td>
+	    <td><span class="texto_comun"><?php echo number_format($gastos, 2); ?></span></td>
+	    </tr>
+	  <tr>
+	    <td height="37" bgcolor="#FFCCCC"><span class="texto_comun">VALOR CIF FRONTERA EN USD,</span></td>
+	    <td bgcolor="#FFCCCC">
+		  <span class="texto_comun">
+		  <?php @$suma_total=$fob+$flete+$seguro+$puerto+$flete2+$gastos; 
+		   $suma_total=round($suma_total, 2);   echo number_format($suma_total, 2); ?>
+		  </span></td>
+	    </tr>
+	  <tr>
+	    <td><span class="texto_comun">TIPO DE CAMBIO</span></td>
+	    <td><span class="texto_comun"><?php echo"$tipo_cambio"; ?></span></td>
+	    </tr>
+	  <tr>
+	    <td height="37" bgcolor="#FFCCCC"><span class="texto_comun">VALOR CIF FORNTERA EN BS.</span></td>
+	    <td bgcolor="#FFCCCC"><span class="texto_comun">
+	      <?php @$suma_total_bs= $suma_total*$tipo_cambio; $suma_total_bs=round($suma_total_bs, 2); 
+		 echo number_format($suma_total_bs, 2); ?>
+	    </span></td>
+	    </tr>
+	  </table>
+      </td>
+        <td width="526"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="2" class="texto_general" style="text-transform: uppercase;">
+          <tr>
+            <td width="47%" rowspan="2" bgcolor="#66CC99">BASE IMPONIBLE</td>
+            <td width="22%" bgcolor="#99CCFF">GA</td>
+            <td width="31%" bgcolor="#99CCFF">Bs.-</td>
+          </tr>
+          <tr>
+            <td><?php echo"$ga_b"; ?>% </td>
+            <td><?php @$valor_ga=$suma_total_bs*$ga; $valor_ga=round($valor_ga); 
+			echo number_format($valor_ga); ?></td>
+          </tr>
+          <tr>
+            <td bgcolor="#CCCCCC">OTRAS EROGACIONES</td>
+            <td colspan="2" bgcolor="#CCCCCC"><?php echo"$erogaciones"; ?></td>
+          </tr>
+          <tr>
+            <td rowspan="2" bgcolor="#66CC99">BASE IMPONIBLE</td>
+            <td bgcolor="#99CCFF">I.V.A</td>
+            <td bgcolor="#99CCFF">BS.-</td>
+          </tr>
+          <tr>
+            <td><?php echo"$iva_b"; ?> %</td>
+            <td>
+				
+				<?php @$valor_iva=($suma_total_bs+$valor_ga+$erogaciones)*$iva; $valor_iva=round($valor_iva); 
+			echo number_format($valor_iva); ?>
+			  
+			  
+			  </td>
+          </tr>
+          <tr>
+            <td height="30" bgcolor="#FFCC99">PAGO ALBO / AN</td>
+            <td colspan="2" bgcolor="#FFCC99">&nbsp;</td>
+          </tr>
+          <tr>
+            <td>ALMACENAJE</td>
+            <td colspan="2"><?php @$total_alm=$suma_total_bs*$alm; $total_alm=round($total_alm); echo"$total_alm"; ?></td>
+          </tr>
+          <tr>
+            <td>SUMA / SIDUINEA++</td>
+            <td colspan="2"><?php echo"$suma"; ?></td>
+          </tr>
+          <tr>
+            <td>C.COMERCIO</td>
+            <td colspan="2"><?php echo"$comercio"; ?></td>
+          </tr>
+          <tr>
+            <td height="28" bgcolor="#FFFFCC">TOTAL</td>
+            <td colspan="2" bgcolor="#FFFFCC"><?php @$total_iva_ga=$valor_iva+$valor_ga+$total_alm+$suma; $total_iva_ga=round($total_iva_ga, 2); 
+			echo number_format($total_iva_ga, 2); ?></td>
+          </tr>
+        </table></td>
+  </tr>
+    
+</table>
+<table width="92%" border="1" align="center" cellspacing="0" class="table_sin_marco">
+  <tr>
+    <th scope="col"><span class="company texto_general">NOTA: La siguiente preliquidacion es un aproximado de costo, el cual puede variar.</span></th>
+  </tr>
+</table>
+</div>
+
+</body>
+</html>
